@@ -85,6 +85,8 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
+  programs.steam.enable = true;
+
   users.users.luisl = {
     isNormalUser = true;
     description = "Juan Llamas";
@@ -149,6 +151,7 @@
     btop
     cmake
     zig
+    mission-center
   ]) ++ (with pkgs-unstable; [
     go
     gopls
