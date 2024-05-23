@@ -61,6 +61,26 @@
           b:8
       '';
     };
+
+    "settings.json" = {
+      target = ".config/Code/User/settings.json";
+      text = ''
+      {
+        "workbench.iconTheme": "material-icon-theme",
+        "window.titleBarStyle": "custom",
+        "[go]": {
+            "editor.semanticHighlighting.enabled": true,
+            "editor.insertSpaces": false,
+            "editor.formatOnSave": true,
+            "editor.codeActionsOnSave": {
+                "source.organizeImports": "explicit"
+            }
+        },
+        "workbench.colorTheme": "Adwaita Dark",
+        "editor.fontFamily": "'MesloLGMDZ Nerd Font Mono'"
+      }
+      '';
+    };
   };
 
   home.activation = {
