@@ -133,6 +133,12 @@
           version = "5.2.9";
           sha256 = "1c9bd5a57d9c6ad8af772c6c9d58c9051bc84f09a4ca859e85a7d62fde52d81d";
         }
+        {
+          name = "vscode-zig";
+          publisher = "ziglang";
+          version = "0.5.8";
+          sha256 = "5b92da63b66b4c29c1fca31f023363e90936330ea919418a240bab1f69517ae0";
+        }
       ];
     })
     armcord
@@ -158,6 +164,7 @@
     delve
     go-tools
     jetbrains.goland
+    zls
   ]);
 
   # Install fonts
