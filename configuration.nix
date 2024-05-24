@@ -156,7 +156,6 @@
     python3
     btop
     cmake
-    zig
     mission-center
   ]) ++ (with pkgs-unstable; [
     go
@@ -164,6 +163,7 @@
     delve
     go-tools
     jetbrains.goland
+    zig
     zls
   ]);
 
