@@ -81,11 +81,25 @@
       }
       '';
     };
+
+    ".xinitrc" = {
+      text = ''
+        xbindkeys
+      '';
+    };
   };
 
   home.activation = {
-    update-xbindkeysrc = lib.hm.dag.entryAfter [ "installPackages" ] ''
-      $DRY_RUN_CMD ${config.home.path}/bin/killall -HUP xbindkeys
+    # check if xbindkeysrc is started and if not start it
+    # otherwise send a HUP signal to reload the configuration
+    update-xinitrc = lib.hm.dag.entryAfter [ "installPackages" ] ''
+      PATH=${config.home.path}/bin:$PATH
+
+      if ! pgrep -x xbindkeys > /dev/null; then
+        $DRY_RUN_CMD xbindkeys
+      else
+        $DRY_RUN_CMD killall -HUP xbindkeys
+      fi
     '';
   };
 
