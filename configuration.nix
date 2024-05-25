@@ -157,6 +157,7 @@
     btop
     cmake
     mission-center
+    easyeffects
   ]) ++ (with pkgs-unstable; [
     go
     gopls
@@ -165,6 +166,7 @@
     jetbrains.goland
     zig
     zls
+    osu-lazer-bin
   ]);
 
   # Install fonts
