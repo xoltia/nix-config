@@ -40,6 +40,7 @@
     pkgs.gnomeExtensions.blur-my-shell
     pkgs.gnomeExtensions.rounded-window-corners
     pkgs-unstable.fastfetch
+    pkgs.adw-gtk3
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -67,7 +68,7 @@
       text = ''
       {
         "workbench.iconTheme": "material-icon-theme",
-        "window.titleBarStyle": "custom",
+        "window.titleBarStyle": "native",
         "[go]": {
             "editor.semanticHighlighting.enabled": true,
             "editor.insertSpaces": false,
@@ -179,7 +180,8 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita-dark";
+      # name = "Adwaita-dark";
+      name = "adw-gtk3-dark";
     };
   };
 
