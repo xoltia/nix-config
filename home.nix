@@ -201,9 +201,14 @@
       "org/gnome/shell/extensions/blur-my-shell".color-and-noise = false;
       "org/gnome/shell/extensions/blur-my-shell/applications".blur = false;
       "org/gnome/shell/extensions/blur-my-shell/panel".blur = false;
-      "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
-        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
-      ];
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        play = [ "<Ctrl><Alt>slash" ];
+        next = [ "<Ctrl><Alt>period" ];
+        previous = [ "<Ctrl><Alt>comma" ];
+        custom-keybindings = [
+          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        ];
+      };
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
         name = "open kgx";
         command = "kgx";
