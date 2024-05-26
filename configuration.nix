@@ -158,6 +158,8 @@
     cmake
     mission-center
     easyeffects
+    bottles
+    cartridges
   ]) ++ (with pkgs-unstable; [
     go
     gopls
