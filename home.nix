@@ -198,6 +198,7 @@
         "blur-my-shell@aunetx"
         "rounded-window-corners@yilozt"
       ];
+      "org/gnome/shell/extensions/blur-my-shell/overview".style-components = 2;
       "org/gnome/shell/extensions/blur-my-shell".color-and-noise = false;
       "org/gnome/shell/extensions/blur-my-shell/applications".blur = false;
       "org/gnome/shell/extensions/blur-my-shell/panel".blur = false;
