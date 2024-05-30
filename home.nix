@@ -85,25 +85,29 @@
       }
       '';
     };
+  };
 
-    ".xinitrc" = {
-      text = ''
-        xbindkeys
-      '';
+  systemd.user.services = {
+    xbindkeys = {
+      Unit = {
+        Description = "XBindKeys";
+      };
+
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.xbindkeys}/bin/xbindkeys -n";
+        Restart = "always";
+      };
     };
   };
 
   home.activation = {
-    # check if xbindkeysrc is started and if not start it
-    # otherwise send a HUP signal to reload the configuration
-    update-xinitrc = lib.hm.dag.entryAfter [ "installPackages" ] ''
-      PATH=${config.home.path}/bin:$PATH
-
-      if ! pgrep -x xbindkeys > /dev/null; then
-        $DRY_RUN_CMD xbindkeys
-      else
-        $DRY_RUN_CMD killall -HUP xbindkeys
-      fi
+    reloadXBindKeys = lib.hm.dag.entryAfter [ "installPackages" ] ''
+      $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user reload-or-restart xbindkeys
     '';
   };
 
