@@ -66,6 +66,11 @@
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.configFile = pkgs.runCommand "default.pa" {} ''
+    sed 's/module-udev-detect$/module-udev-detect tsched=0/' \
+      ${pkgs.pulseaudio}/etc/pulse/default.pa > $out
+  '';
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -141,7 +146,12 @@
         }
       ];
     })
-    armcord
+    (pkgs.discord.override {
+      withOpenASAR = true;
+      withVencord = true;
+    })
+    gtranslator
+    impression
     spotify
     eza
     onlyoffice-bin

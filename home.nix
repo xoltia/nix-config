@@ -227,7 +227,7 @@
         "org.gnome.Nautilus.desktop"
         "code.desktop"
         "spotify.desktop"
-        "armcord.desktop"
+        "discord.desktop"
       ];
     };
   };
