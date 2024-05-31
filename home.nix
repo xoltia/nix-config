@@ -82,7 +82,8 @@
         "zig.path": "zig",
         "zig.zls.path": "zls",
         "zig.initialSetupDone": true,
-        "glassit.alpha": 240
+        "glassit.alpha": 240,
+        "update.mode": "manual"
       }
       '';
     };
