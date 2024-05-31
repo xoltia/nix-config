@@ -170,6 +170,7 @@
     easyeffects
     bottles
     cartridges
+    gimp
   ]) ++ (with pkgs-unstable; [
     go
     gopls
