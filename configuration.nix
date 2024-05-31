@@ -130,8 +130,9 @@
         golang.go
         pkief.material-icon-theme
         github.copilot
-        vscode-extensions.ms-vscode.cpptools
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        ms-vscode.cpptools
+        piousdeer.adwaita-theme
+      ] ++ vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "vscord";
           publisher = "leonardssh";
@@ -146,7 +147,7 @@
         }
       ];
     })
-    (pkgs.discord.override {
+    (discord.override {
       withOpenASAR = true;
       withVencord = true;
     })

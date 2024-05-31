@@ -77,7 +77,7 @@
                 "source.organizeImports": "explicit"
             }
         },
-        "workbench.colorTheme": "Adwaita Dark",
+        "workbench.colorTheme": "Adwaita Dark & default syntax highlighting & colorful status bar",
         "editor.fontFamily": "'MesloLGMDZ Nerd Font Mono'",
         "zig.path": "zig",
         "zig.zls.path": "zls",
