@@ -81,7 +81,8 @@
         "editor.fontFamily": "'MesloLGMDZ Nerd Font Mono'",
         "zig.path": "zig",
         "zig.zls.path": "zls",
-        "zig.initialSetupDone": true
+        "zig.initialSetupDone": true,
+        "glassit.alpha": 240
       }
       '';
     };

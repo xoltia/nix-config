@@ -145,6 +145,12 @@
           version = "0.5.8";
           sha256 = "5b92da63b66b4c29c1fca31f023363e90936330ea919418a240bab1f69517ae0";
         }
+        {
+          name = "glassit";
+          publisher = "s-nlf-fh";
+          version = "0.2.6";
+          sha256 = "2dc0289a02bdd619c95aa016e08d050204cec2bf0ac2fed986f182824a242ae6";
+        }
       ];
     })
     (discord.override {
