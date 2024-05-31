@@ -77,7 +77,7 @@
                 "source.organizeImports": "explicit"
             }
         },
-        "workbench.colorTheme": "Adwaita Dark & default syntax highlighting & colorful status bar",
+        "workbench.colorTheme": "Adwaita Dark",
         "editor.fontFamily": "'MesloLGMDZ Nerd Font Mono'",
         "zig.path": "zig",
         "zig.zls.path": "zls",
@@ -85,6 +85,13 @@
         "glassit.alpha": 240,
         "update.mode": "manual"
       }
+      '';
+    };
+
+    "hx-config" = {
+      target = ".config/helix/config.toml";
+      text = ''
+        theme = "adwaita-dark"
       '';
     };
   };

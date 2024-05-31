@@ -178,6 +178,7 @@
     bottles
     cartridges
     gimp
+    helix
   ]) ++ (with pkgs-unstable; [
     go
     gopls
