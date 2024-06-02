@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
-      ./nvidia.nix
+      ./hosts/desktop.nix
     ];
 
   # Bootloader.
@@ -66,10 +66,6 @@
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
-  hardware.pulseaudio.configFile = pkgs.runCommand "default.pa" {} ''
-    sed 's/module-udev-detect$/module-udev-detect tsched=0/' \
-      ${pkgs.pulseaudio}/etc/pulse/default.pa > $out
-  '';
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -90,7 +86,6 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
-  programs.steam.enable = true;
 
   users.users.luisl = {
     isNormalUser = true;
@@ -175,8 +170,6 @@
     cmake
     mission-center
     easyeffects
-    bottles
-    cartridges
     gimp
     helix
     go
@@ -186,7 +179,6 @@
     jetbrains.goland
     zig
     zls
-    osu-lazer-bin
   ]);
 
   # Install fonts
