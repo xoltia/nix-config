@@ -151,7 +151,6 @@
       ls = "eza --icons";
       ll = "eza --icons --git --long";
       c = "code . & disown; exit";
-      update = "sudo nixos-rebuild switch --show-trace --flake /etc/nixos#default";
     };
     history.size = 10000;
     initExtra = ''
