@@ -1,8 +1,6 @@
 { config, ... }:
 
 {
-  imports = [ ../modules/nvidia.nix ];
-
   hardware.opengl = {
     enable = true;
     driSupport = true;
