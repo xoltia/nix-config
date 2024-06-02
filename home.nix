@@ -240,6 +240,10 @@
         "spotify.desktop"
         "discord.desktop"
       ];
+      "org/gnome/Console" = {
+        use-system-font = false;
+        custom-font = "MesloLGSDZ Nerd Font Mono 10";
+      };
     };
   };
 }
