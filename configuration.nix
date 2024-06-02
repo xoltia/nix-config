@@ -202,6 +202,7 @@
     enabled = "ibus";
     ibus.engines = with pkgs.ibus-engines; [ mozc ];
   };
+  environment.sessionVariables.MOZC_IBUS_CANDIDATE_WINDOW = "ibus";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
