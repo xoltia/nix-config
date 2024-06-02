@@ -61,6 +61,10 @@
         "xte 'keydown Control_L' 'keydown Alt_L' 'key Right' 'keyup Control_L' 'keyup Alt_L'"
           b:8
       '';
+
+      onChange = ''
+        ${pkgs.systemd}/bin/systemctl --user reload-or-restart xbindkeys
+      '';
     };
 
     "settings.json" = {
@@ -112,12 +116,6 @@
         Restart = "always";
       };
     };
-  };
-
-  home.activation = {
-    reloadXBindKeys = lib.hm.dag.entryAfter [ "installPackages" ] ''
-      $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user reload-or-restart xbindkeys
-    '';
   };
 
   # Home Manager can also manage your environment variables through
