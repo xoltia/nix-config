@@ -46,13 +46,10 @@
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
-    "firefox-gnome-theme" = {
-      target = ".mozilla/firefox/default/chrome/firefox-gnome-theme";
-      source = (fetchTarball {
-          url = "https://codeload.github.com/rafaelmardojai/firefox-gnome-theme/tar.gz/refs/tags/v126";
-          sha256 = "1r6vvhzk8gwhs78k54ppsxzfkw7lbldjivydy87ij6grj3cf6mld";
-        });
-    };
+    ".mozilla/firefox/default/chrome/firefox-gnome-theme".source = (fetchTarball {
+      url = "https://codeload.github.com/rafaelmardojai/firefox-gnome-theme/tar.gz/refs/tags/v126";
+      sha256 = "1r6vvhzk8gwhs78k54ppsxzfkw7lbldjivydy87ij6grj3cf6mld";
+    });
 
     ".xbindkeysrc" = {
       text = ''
@@ -67,9 +64,7 @@
       '';
     };
 
-    "settings.json" = {
-      target = ".config/Code/User/settings.json";
-      text = ''
+    ".config/Code/User/settings.json".text = ''
       {
         "workbench.iconTheme": "material-icon-theme",
         "window.titleBarStyle": "native",
@@ -89,15 +84,11 @@
         "glassit.alpha": 240,
         "update.mode": "manual"
       }
-      '';
-    };
+    '';
 
-    "hx-config" = {
-      target = ".config/helix/config.toml";
-      text = ''
-        theme = "adwaita-dark"
-      '';
-    };
+    ".config/helix/config.toml".text  = ''
+      theme = "adwaita-dark"
+    '';
   };
 
   systemd.user.services = {
