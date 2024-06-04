@@ -82,7 +82,8 @@
         "zig.zls.path": "zls",
         "zig.initialSetupDone": true,
         "glassit.alpha": 240,
-        "update.mode": "manual"
+        "update.mode": "manual",
+        "terminal.integrated.defaultProfile.linux": "zsh"
       }
     '';
 
