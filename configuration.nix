@@ -179,6 +179,7 @@
     jetbrains.goland
     zig
     zls
+    sops
   ]);
 
   # Install fonts

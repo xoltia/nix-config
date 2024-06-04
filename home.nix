@@ -1,6 +1,17 @@
-{ config, pkgs, pkgs-unstable, lib, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  lib,
+  inputs,
+  ...
+}:
 
 {
+  imports = [
+    inputs.sops-nix.homeManagerModules.sops
+  ];
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "luisl";
@@ -109,6 +120,26 @@
       };
     };
   };
+
+  # Load secrets
+  sops.defaultSopsFile = ./secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+  sops.secrets."spotifyd/password" = { };
+
+  services.spotifyd = {
+    enable = true;
+    settings = {
+      global = {
+        username = "auzrema";
+        password_cmd = ''cat ${config.sops.secrets."spotifyd/password".path}'';
+      };
+    };
+  };
+
+  # Ensure spotify service has updated secrets
+  systemd.user.services.spotifyd.Unit.After = [ "sops-nix.service" ];
+  systemd.user.services.spotifyd.Unit.PartOf = [ "sops-nix.service" ];
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
