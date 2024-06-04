@@ -133,6 +133,7 @@
       global = {
         username = "auzrema";
         password_cmd = ''cat ${config.sops.secrets."spotifyd/password".path}'';
+        bitrate = 320;
       };
     };
   };
