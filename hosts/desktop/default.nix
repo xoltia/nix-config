@@ -17,4 +17,6 @@
     osu-lazer-bin
     prismlauncher
   ]);
+
+  system.stateVersion = "23.11";
 }

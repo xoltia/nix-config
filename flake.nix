@@ -25,6 +25,23 @@
         };
       };
       modules = [
+        ./hosts/desktop
+        ./configuration.nix
+        inputs.home-manager.nixosModules.default
+      ];
+    };
+
+    nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
+      specialArgs = let system = "x86_64-linux"; in {
+        inherit inputs;
+        inherit system;
+        pkgs-unstable = import nixpkgs-unstable {
+          inherit system;
+          config = { allowUnfree = true; };  
+        };
+      };
+      modules = [
+        ./hosts/laptop
         ./configuration.nix
         inputs.home-manager.nixosModules.default
       ];
