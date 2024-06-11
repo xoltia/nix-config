@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../modules/nvidia.nix ];
+  imports = [ ./nvidia.nix ];
 
   hardware.pulseaudio.configFile = pkgs.runCommand "default.pa" {} ''
     sed 's/module-udev-detect$/module-udev-detect tsched=0/' \
