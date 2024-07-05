@@ -150,7 +150,7 @@
     })
     (discord.override {
       withOpenASAR = true;
-      withVencord = true;
+      withVencord = false;
     })
     gtranslator
     impression
