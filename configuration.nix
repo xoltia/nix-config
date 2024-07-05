@@ -181,6 +181,7 @@
     zls
     sops
     errands
+    jq
   ]);
 
   # Install fonts
