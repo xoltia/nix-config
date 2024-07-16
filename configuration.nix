@@ -126,6 +126,7 @@
         pkief.material-icon-theme
         github.copilot
         ms-vscode.cpptools
+        ms-python.python
         piousdeer.adwaita-theme
       ] ++ vscode-utils.extensionsFromVscodeMarketplace [
         {
