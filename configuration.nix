@@ -83,13 +83,17 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+
+  # enable docker
+  virtualisation.docker.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
 
   users.users.luisl = {
     isNormalUser = true;
     description = "Juan Llamas";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = [
       # pkgs.xbindkeys
       # pkgs.xautomation
@@ -183,6 +187,7 @@
     sops
     errands
     jq
+    docker-compose
   ]);
 
   # Install fonts
