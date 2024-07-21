@@ -188,6 +188,7 @@
     errands
     jq
     docker-compose
+    anki-bin
   ]);
 
   # Install fonts
