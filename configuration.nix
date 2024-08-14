@@ -189,6 +189,7 @@
     jq
     docker-compose
     anki-bin
+    zed-editor
   ]);
 
   # Install fonts
