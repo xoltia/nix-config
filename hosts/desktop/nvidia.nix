@@ -1,7 +1,8 @@
 { config, ... }:
 
 {
-  virtualisation.docker.enableNvidia = true; 
+  #virtualisation.docker.enableNvidia = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   hardware.opengl = {
     enable = true;

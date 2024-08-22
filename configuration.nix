@@ -182,14 +182,15 @@
     delve
     go-tools
     jetbrains.goland
-    zig
-    zls
     sops
     errands
     jq
     docker-compose
     anki-bin
     zed-editor
+  ]) ++ (with pkgs-unstable; [
+    zig
+    zls
   ]);
 
   # Install fonts
