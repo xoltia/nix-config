@@ -31,7 +31,6 @@
 
   home.sessionVariables = {
     EDITOR = "hx";   
-    MOZC_IBUS_CANDIDATE_WINDOW = "ibus";
   };
 
   gtk = {

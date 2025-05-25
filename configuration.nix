@@ -104,6 +104,10 @@
     ibus.engines = with pkgs.ibus-engines; [ mozc ];
   };
 
+  environment.sessionVariables = {
+    MOZC_IBUS_CANDIDATE_WINDOW = "ibus";
+  };
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
