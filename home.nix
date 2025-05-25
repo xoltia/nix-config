@@ -19,6 +19,7 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
+    gnomeExtensions.blur-my-shell
     ghostty
     mission-center
     spotify
@@ -61,6 +62,11 @@
         "discord.desktop"
         "io.missioncenter.MissionCenter.desktop"
       ];
+      disable-user-extensions = false;
+      enabled-extensions = [
+        "blur-my-shell@aunetx"
+      ];
+      disabled-extensions = [];
     };
     "org/gnome/desktop/input-sources" = {
       sources = [
