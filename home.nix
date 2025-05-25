@@ -22,6 +22,7 @@
     ghostty
     mission-center
     spotify
+    discord
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
@@ -57,6 +58,7 @@
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
         "spotify.desktop"
+        "discord.desktop"
         "io.missioncenter.MissionCenter.desktop"
       ];
     };
