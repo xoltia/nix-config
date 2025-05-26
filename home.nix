@@ -5,18 +5,10 @@
     inputs.zen-browser.homeModules.twilight
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   home.username = "luisl";
   home.homeDirectory = "/home/luisl";
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "25.05"; # Please read the comment before changing.
-  nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
     gnomeExtensions.blur-my-shell
@@ -24,6 +16,7 @@
     mission-center
     spotify
     discord
+    lazygit
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
@@ -32,6 +25,48 @@
   home.sessionVariables = {
     EDITOR = "hx";   
   };
+
+  programs.git = {
+    enable = true;
+    userName  = "Juan Llamas";
+    userEmail = "38849891+xoltia@users.noreply.github.com";
+    extraConfig.init.defaultBranch = "main";
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable= true;
+    syntaxHighlighting.enable = true;
+    shellAliases = {
+      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos";
+    };
+    history.size = 10000;
+    initContent  = ''
+      bindkey '^[[1;5C' forward-word
+      bindkey '^[[1;5D' backward-word
+      BACKGROUND_JOBS="%(1j. %F{red}[%j]%f.)"
+      PS1="%K{blue}%n@%m%k %B%F{cyan}%~%f$BACKGROUND_JOBS%b %F{250}%%%f "
+    '';
+  };
+
+  programs.helix = {
+    enable = true;
+    settings = {
+      editor = {
+        line-number = "relative";
+        bufferline = "multiple";
+        color-modes = true;
+      };
+    };
+  };
+
+  programs.zen-browser = {
+    enable = true;
+    policies.DisableTelemetry = true;
+    policies.DisableAppUpdate = true;
+  };
+
 
   gtk = {
     enable = true;
@@ -78,49 +113,6 @@
     };
   };
 
-  programs.git = {
-    enable = true;
-    userName  = "Juan Llamas";
-    userEmail = "38849891+xoltia@users.noreply.github.com";
-    extraConfig.init.defaultBranch = "main";
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable= true;
-    syntaxHighlighting.enable = true;
-    shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos";
-    };
-    history.size = 10000;
-    initContent  = ''
-      bindkey '^[[1;5C' forward-word
-      bindkey '^[[1;5D' backward-word
-      BACKGROUND_JOBS="%(1j. %F{red}[%j]%f.)"
-      PS1="%K{blue}%n@%m%k %B%F{cyan}%~%f$BACKGROUND_JOBS%b %F{250}%%%f "
-    '';
-  };
-
-  programs.helix = {
-    enable = true;
-    settings = {
-      editor = {
-        line-number = "relative";
-        bufferline = "multiple";
-        color-modes = true;
-      };
-    };
-  };
-
-  programs.zen-browser = {
-    enable = true;
-    policies.DisableTelemetry = true;
-    policies.DisableAppUpdate = true;
-  };
-
-  programs.home-manager.enable = true;
-
   home.file.".config/ghostty/config".text = ''
     window-height = 30
     window-width = 120
@@ -129,4 +121,8 @@
     window-padding-color = extend
     theme = Adwaita Dark
   '';
+
+  programs.home-manager.enable = true;
+  # Probably don't change unless you're sure it won't break things.
+  home.stateVersion = "25.05";
 }
