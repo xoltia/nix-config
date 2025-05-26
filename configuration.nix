@@ -45,6 +45,16 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  i18n.inputMethod = {
+    enable = true;
+    type = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [ mozc ];
+  };
+
+  environment.sessionVariables = {
+    MOZC_IBUS_CANDIDATE_WINDOW = "ibus";
+  };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -96,16 +106,6 @@
     users = {
       "luisl" = import ./home.nix;
     };
-  };
-
-  i18n.inputMethod = {
-    enable = true;
-    type = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [ mozc ];
-  };
-
-  environment.sessionVariables = {
-    MOZC_IBUS_CANDIDATE_WINDOW = "ibus";
   };
 
   # List services that you want to enable:
