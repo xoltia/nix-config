@@ -97,7 +97,8 @@
     initContent  = ''
       bindkey '^[[1;5C' forward-word
       bindkey '^[[1;5D' backward-word
-      prompt adam1
+      BACKGROUND_JOBS="%(1j. %F{red}[%j]%f.)"
+      PS1="%K{blue}%n@%m%k %B%F{cyan}%~%f$BACKGROUND_JOBS%b %F{250}%%%f "
     '';
   };
 
