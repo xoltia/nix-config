@@ -18,9 +18,15 @@
   };
 
   dconf.settings = with lib.hm.gvariant;  {
+    "org/gnome/desktop/background" = {
+      picture-uri = "file://" + ./wallpaper.png;
+      picture-uri-dark = "file://" + ./wallpaper.png;
+    };
+
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
+
     "org/gnome/shell" = {
       favorite-apps = [
         "zen-twilight.desktop"
@@ -36,12 +42,14 @@
       ];
       disabled-extensions = [];
     };
+
     "org/gnome/desktop/input-sources" = {
       sources = [
         (mkTuple [ "xkb" "us" ])
         (mkTuple [ "ibus" "mozc-jp" ])
       ];
     };
+
     "org/gnome/shell/extensions/blur-my-shell/panel" = {
       blur = false;
     };
