@@ -16,9 +16,9 @@
 
   outputs = { self, nixpkgs, ... }@inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = { inherit inputs; };
       modules = [
-        ./configuration.nix
+        ./hosts/nixos
         inputs.home-manager.nixosModules.default
       ];
     };

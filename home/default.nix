@@ -3,28 +3,14 @@
 {
   imports = [
     inputs.zen-browser.homeModules.twilight
+    ./gnome.nix
+    ./packages.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
 
   home.username = "luisl";
   home.homeDirectory = "/home/luisl";
-
-  home.packages = with pkgs; [
-    gnomeExtensions.blur-my-shell
-    ghostty
-    mission-center
-    spotify
-    discord
-    lazygit
-    qemu_full
-    quickemu
-    jq
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-emoji
-  ];
-
   home.sessionVariables = {
     EDITOR = "hx";   
   };
@@ -70,53 +56,6 @@
     policies.DisableAppUpdate = true;
   };
 
-
-  gtk = {
-    enable = true;
-
-    gtk2.extraConfig = ''
-      gtk-application-prefer-dark-theme=1
-    '';
-
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme=1;
-    };
-
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme=1;
-    };
-  };
-
-  dconf.settings = with lib.hm.gvariant;  {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-    "org/gnome/shell" = {
-      favorite-apps = [
-        "zen-twilight.desktop"
-        "org.gnome.Nautilus.desktop"
-        "com.mitchellh.ghostty.desktop"
-        "spotify.desktop"
-        "discord.desktop"
-        "io.missioncenter.MissionCenter.desktop"
-      ];
-      disable-user-extensions = false;
-      enabled-extensions = [
-        "blur-my-shell@aunetx"
-      ];
-      disabled-extensions = [];
-    };
-    "org/gnome/desktop/input-sources" = {
-      sources = [
-        (mkTuple [ "xkb" "us" ])
-        (mkTuple [ "ibus" "mozc-jp" ])
-      ];
-    };
-    "org/gnome/shell/extensions/blur-my-shell/panel" = {
-      blur = false;
-    };
-  };
-
   home.file.".config/ghostty/config".text = ''
     window-height = 30
     window-width = 120
@@ -127,6 +66,7 @@
   '';
 
   programs.home-manager.enable = true;
+
   # Probably don't change unless you're sure it won't break things.
   home.stateVersion = "25.05";
 }
