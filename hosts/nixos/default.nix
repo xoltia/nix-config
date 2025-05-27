@@ -70,7 +70,6 @@
     isNormalUser = true;
     description = "Juan Llamas";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
     shell = pkgs.zsh;
   };
 
@@ -78,7 +77,12 @@
   programs.zsh.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [
+    file
+    jq
+    zip
+    unzip
+  ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

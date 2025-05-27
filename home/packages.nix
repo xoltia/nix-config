@@ -10,7 +10,8 @@
     lazygit
     qemu_full
     quickemu
-    jq
+    ffmpeg
+    imagemagick
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
