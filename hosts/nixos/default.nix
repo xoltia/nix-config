@@ -84,6 +84,16 @@
     unzip
   ];
 
+  environment.gnome.excludePackages = (with pkgs; [
+    epiphany
+    geary
+    cheese
+    gnome-maps
+    gnome-music
+    gnome-tour
+    gnome-contacts
+  ]);
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
