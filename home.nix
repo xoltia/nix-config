@@ -19,6 +19,7 @@
     lazygit
     qemu_full
     quickemu
+    jq
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
