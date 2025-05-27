@@ -17,6 +17,8 @@
     spotify
     discord
     lazygit
+    qemu_full
+    quickemu
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
