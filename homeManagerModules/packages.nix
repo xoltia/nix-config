@@ -2,7 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    gnomeExtensions.blur-my-shell
     ghostty
     mission-center
     spotify
@@ -11,6 +10,10 @@
     qemu_full
     quickemu
     ffmpeg
+    file
+    jq
+    zip
+    unzip
     imagemagick
     fastfetch
     noto-fonts

@@ -1,6 +1,8 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
+  home.packages = with pkgs.gnomeExtensions; [ blur-my-shell ];
+
   gtk = {
     enable = true;
 

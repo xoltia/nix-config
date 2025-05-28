@@ -77,12 +77,8 @@
   programs.zsh.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  environment.systemPackages = with pkgs; [
-    file
-    jq
-    zip
-    unzip
-  ];
+  nixpkgs.config.allowUnfreePredicate = _: true;
+  environment.systemPackages = with pkgs; [];
 
   environment.gnome.excludePackages = (with pkgs; [
     epiphany
@@ -97,7 +93,7 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "luisl" = import ../../home;
+      "luisl" = import ./home.nix;
     };
   };
 
