@@ -1,7 +1,8 @@
 { pkgs, ... }:
 
 with pkgs; stdenv.mkDerivation {
-  name = "jido";
+  pname = "jido";
+  version = "1.2.0";
 
   src = fetchurl {
     url = "https://github.com/BrookJeynes/jido/releases/download/v1.2.0/x86_64-linux.tar.gz";
