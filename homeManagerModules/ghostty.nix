@@ -1,6 +1,8 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  home.packages = with pkgs; [ ghostty ];
+
   home.file.".config/ghostty/config".text = ''
     window-height = 30
     window-width = 120

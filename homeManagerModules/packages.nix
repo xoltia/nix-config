@@ -2,20 +2,19 @@
 
 {
   home.packages = with pkgs; [
-    ghostty
+    file
+    jq
+    zip
+    unzip
+    ffmpeg
+    imagemagick
+    fastfetch
     mission-center
     spotify
     discord
     lazygit
     qemu_full
     quickemu
-    ffmpeg
-    file
-    jq
-    zip
-    unzip
-    imagemagick
-    fastfetch
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji

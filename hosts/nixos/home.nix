@@ -9,6 +9,7 @@
     ../../homeManagerModules/helix.nix
     ../../homeManagerModules/direnv.nix
     ../../homeManagerModules/zsh.nix
+    ../../homeManagerModules/ghostty.nix
   ];
   nixpkgs.config.allowUnfree = true;
   home.username = "luisl";
