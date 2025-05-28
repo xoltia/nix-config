@@ -95,6 +95,7 @@
     window-padding-balance = true
     window-padding-color = extend
     theme = Adwaita Dark
+    mouse-hide-while-typing = true
   '';
 
   programs.home-manager.enable = true;
