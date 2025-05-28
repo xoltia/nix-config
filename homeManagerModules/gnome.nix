@@ -1,7 +1,14 @@
 { lib, pkgs, ... }:
 
+let
+  extensions = with pkgs.gnomeExtensions; [
+    blur-my-shell
+    rounded-window-corners-reborn
+    clipboard-indicator
+  ];
+in
 {
-  home.packages = with pkgs.gnomeExtensions; [ blur-my-shell ];
+  home.packages = extensions;
 
   gtk = {
     enable = true;
@@ -40,9 +47,10 @@
         "io.missioncenter.MissionCenter.desktop"
       ];
       disable-user-extensions = false;
-      enabled-extensions = [
-        "blur-my-shell@aunetx"
-      ];
+      # enabled-extensions = [
+      #   "blur-my-shell@aunetx"
+      # ];
+      enabled-extensions = map (e: e.extensionUuid) extensions;
       disabled-extensions = [];
     };
 
