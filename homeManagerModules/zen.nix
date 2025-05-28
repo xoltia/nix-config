@@ -40,6 +40,7 @@
         "signon.showAutoCompleteFooter" = false;
         "signon.rememberSignons" = false;
         "general.autoScroll" = true;
+        "browser.translations.neverTranslateLanguages" = "ja";
       };
     };
   };
