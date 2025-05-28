@@ -8,6 +8,8 @@
   programs.zen-browser = {
     enable = true;
 
+    # See policy settings here.
+    # https://mozilla.github.io/policy-templates/
     policies = {
       DisableTelemetry = true;
       DisableAppUpdate = true;
@@ -29,6 +31,7 @@
         sponsorblock
         bitwarden
       ];
+      # about:config options
       settings = {
         "zen.welcome-screen.seen" = true;
         "zen.view.show-newtab-button-top" = false;
