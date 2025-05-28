@@ -83,6 +83,7 @@
         "extensions.autoDisableScopes" = 0;
         "signon.showAutoCompleteFooter" = false;
         "signon.rememberSignons" = false;
+        "general.autoScroll" = true;
       };
     };
   };
