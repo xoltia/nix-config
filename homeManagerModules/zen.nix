@@ -22,6 +22,9 @@
         "446900e4-71c2-419f-a6a7-df9c091e268b" = { default_area = "menupanel"; };
       };
       RequestedLocales = [ "en-US" "ja-JP" ];
+      DNSOverHTTPS = {
+        Enabled = true;
+      };
     };
 
     profiles.luisl = {
