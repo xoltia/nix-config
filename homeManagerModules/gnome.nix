@@ -47,9 +47,6 @@ in
         "io.missioncenter.MissionCenter.desktop"
       ];
       disable-user-extensions = false;
-      # enabled-extensions = [
-      #   "blur-my-shell@aunetx"
-      # ];
       enabled-extensions = map (e: e.extensionUuid) extensions;
       disabled-extensions = [];
     };
@@ -58,6 +55,7 @@ in
       sources = [
         (mkTuple [ "xkb" "us" ])
         (mkTuple [ "ibus" "mozc-jp" ])
+        (mkTuple [ "xkb" "jp" ])
       ];
     };
 
