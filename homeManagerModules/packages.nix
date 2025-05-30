@@ -9,6 +9,7 @@
     ffmpeg
     imagemagick
     fastfetch
+    showtime
     mission-center
     spotify
     discord
