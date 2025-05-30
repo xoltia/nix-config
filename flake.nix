@@ -41,6 +41,7 @@
         modules = [
           ./hosts/hetzner-ampere
           inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
         ];
       };
   };

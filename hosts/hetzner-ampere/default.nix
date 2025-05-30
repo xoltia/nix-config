@@ -1,9 +1,5 @@
-{
-  modulesPath,
-  lib,
-  pkgs,
-  ...
-}:
+{ modulesPath, lib, pkgs, inputs, ... }:
+
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -11,6 +7,7 @@
     ./disk-config.nix
     ./hardware-configuration.nix
   ];
+
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
     # devices = [ ];
@@ -25,9 +22,26 @@
     pkgs.helix
   ];
 
-  users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo"
-  ];
+  # users.users.root.openssh.authorizedKeys.keys = [
+    # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo"
+  # ];
+
+  users.users.luisl = {
+    isNormalUser = true;
+    home = "/home/luisl";
+    extraGroups  = [ "wheel" "networkmanager" ];
+    openssh.authorizedKeys.keys = [    
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo"
+    ];
+  };
+
+  
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "luisl" = import ./home.nix;
+    };
+  };
 
   system.stateVersion = "24.05";
 }
