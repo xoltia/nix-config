@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, ... }:
+{ inputs, config, pkgs, lib, ... }:
 
 {
   imports =
@@ -78,7 +78,9 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = _: true;
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [
+    ffmpegthumbnailer
+  ];
 
   environment.gnome.excludePackages = (with pkgs; [
     totem
@@ -89,6 +91,13 @@
     gnome-music
     gnome-tour
     gnome-contacts
+  ]);
+
+  environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (with pkgs.gst_all_1; [
+    gst-plugins-good
+    gst-plugins-bad
+    gst-plugins-ugly
+    gst-libav
   ]);
 
   home-manager = {
