@@ -13,6 +13,7 @@
     mission-center
     spotify
     discord
+    pinta
     lazygit
     qemu_full
     quickemu
