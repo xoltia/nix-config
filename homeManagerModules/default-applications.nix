@@ -7,7 +7,7 @@ let
     (map (m: { name = m; value = desktopFile; }) mimeTypes);
 
   applyMimeType = mimeTypes: desktopFile:
-    if desktopFile == "" then []
+    if desktopFile == "" then { }
     else mimeMap mimeTypes desktopFile;
 in
 {
