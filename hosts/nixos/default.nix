@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ../../modules/nvidia.nix
       ../../modules/ibus.nix
+      ../../modules/gnome.nix
     ];
  
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -21,7 +22,6 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
-  networking.networkmanager.settings.connectivity.uri = "http://nmcheck.gnome.org/check_network_status.txt";
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
@@ -39,13 +39,6 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -79,27 +72,6 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = _: true;
-  environment.systemPackages = with pkgs; [
-    ffmpegthumbnailer
-  ];
-
-  environment.gnome.excludePackages = (with pkgs; [
-    totem
-    epiphany
-    geary
-    cheese
-    gnome-maps
-    gnome-music
-    gnome-tour
-    gnome-contacts
-  ]);
-
-  environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" (with pkgs.gst_all_1; [
-    gst-plugins-good
-    gst-plugins-bad
-    gst-plugins-ugly
-    gst-libav
-  ]);
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
