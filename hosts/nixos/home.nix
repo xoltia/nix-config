@@ -2,8 +2,9 @@
 
 {
   imports = [
+    ../../homeManagerModules/base-packages.nix
+    ../../homeManagerModules/default-applications.nix
     ../../homeManagerModules/gnome.nix
-    ../../homeManagerModules/packages.nix
     ../../homeManagerModules/git.nix
     ../../homeManagerModules/zen.nix
     ../../homeManagerModules/helix.nix

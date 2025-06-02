@@ -9,11 +9,8 @@
     ffmpeg
     imagemagick
     fastfetch
-    showtime
-    mission-center
     spotify
     discord
-    pinta
     lazygit
     qemu_full
     quickemu
