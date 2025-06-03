@@ -4,6 +4,7 @@
   programs.helix = {
     enable = true;
     settings = {
+      theme = "fleet_dark";
       editor = {
         line-number = "relative";
         bufferline = "multiple";
@@ -12,7 +13,7 @@
         end-of-line-diagnostics = "hint";
         inline-diagnostics = {
           cursor-line = "error";
-          other-lines = "error";
+          other-lines = "disable";
         };
       };
     };
