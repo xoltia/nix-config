@@ -11,6 +11,7 @@
     ../../homeManagerModules/direnv.nix
     ../../homeManagerModules/zsh.nix
     ../../homeManagerModules/ghostty.nix
+    ../../homeManagerModules/stash.nix
   ];
   nixpkgs.config.allowUnfree = true;
   home.username = "luisl";
