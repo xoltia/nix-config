@@ -2,16 +2,16 @@
 
 {
   imports = [
-    ../../homeManagerModules/base-packages.nix
-    ../../homeManagerModules/default-applications.nix
-    ../../homeManagerModules/gnome.nix
-    ../../homeManagerModules/git.nix
-    ../../homeManagerModules/zen.nix
-    ../../homeManagerModules/helix.nix
-    ../../homeManagerModules/direnv.nix
-    ../../homeManagerModules/zsh.nix
-    ../../homeManagerModules/ghostty.nix
-    ../../homeManagerModules/stash.nix
+    ../../hm-modules/base-packages.nix
+    ../../hm-modules/default-applications.nix
+    ../../hm-modules/gnome.nix
+    ../../hm-modules/git.nix
+    ../../hm-modules/zen.nix
+    ../../hm-modules/helix.nix
+    ../../hm-modules/direnv.nix
+    ../../hm-modules/zsh.nix
+    ../../hm-modules/ghostty.nix
+    ../../hm-modules/stash.nix
   ];
   nixpkgs.config.allowUnfree = true;
   home.username = "luisl";

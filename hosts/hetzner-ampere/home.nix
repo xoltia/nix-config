@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ../../homeManagerModules/git.nix
-    ../../homeManagerModules/helix.nix
+    ../../hm-modules/git.nix
+    ../../hm-modules/helix.nix
   ];
   home.username = "luisl";
   home.homeDirectory = "/home/luisl";
