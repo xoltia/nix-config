@@ -24,6 +24,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
@@ -42,6 +44,16 @@
           ./hosts/hetzner-ampere
           inputs.disko.nixosModules.default
           inputs.home-manager.nixosModules.default
+        ];
+      };
+
+      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/wsl
+          inputs.home-manager.nixosModules.default
+          inputs.nixos-wsl.nixosModules.default
         ];
       };
   };

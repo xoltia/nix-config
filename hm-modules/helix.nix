@@ -6,6 +6,7 @@
     settings = {
       theme = "fleet_dark";
       editor = {
+        true-color = true;
         line-number = "relative";
         bufferline = "multiple";
         color-modes = true;
