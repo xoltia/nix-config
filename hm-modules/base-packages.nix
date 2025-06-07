@@ -29,7 +29,6 @@
         ffmpeg
         imagemagick
         fastfetch
-        lazygit
       ]
       ++ lib.optionals config.basePackages.enableFonts [
         noto-fonts
