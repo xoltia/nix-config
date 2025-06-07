@@ -7,6 +7,9 @@
     userEmail = "38849891+xoltia@users.noreply.github.com";
     extraConfig.init.defaultBranch = "main";
     delta.enable = true;
+    delta.options = {
+      syntax-theme = "Visual Studio Dark+";
+    };
   };
 
   programs.lazygit = {
