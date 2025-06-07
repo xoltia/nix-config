@@ -4,7 +4,6 @@ let
   extensions = with pkgs.gnomeExtensions; [
     blur-my-shell
     rounded-window-corners-reborn
-    clipboard-indicator
   ];
 in
 {
@@ -68,6 +67,10 @@ in
 
     "org/gnome/shell/extensions/blur-my-shell/panel" = {
       blur = false;
+    };
+
+    "org/gnome/shell/extensions/blur-my-shell/overview" = {
+      style-components = 2;
     };
   };
 }

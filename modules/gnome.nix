@@ -7,6 +7,10 @@
 
   networking.networkmanager.settings.connectivity.uri = "http://nmcheck.gnome.org/check_network_status.txt";
 
+  environment.variables = {
+    MUTTER_DEBUG_FORCE_KMS_MODE = "simple";
+  };
+
   environment.systemPackages = with pkgs; [
     ffmpegthumbnailer
   ];
