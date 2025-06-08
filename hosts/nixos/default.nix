@@ -69,6 +69,9 @@
 
   programs.firefox.enable = true;
   programs.zsh.enable = true;
+  programs.steam.enable = true;
+
+  environment.systemPackages = with pkgs; [ r2modman ];
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = _: true;
