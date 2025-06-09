@@ -70,6 +70,7 @@
   programs.firefox.enable = true;
   programs.zsh.enable = true;
   programs.steam.enable = true;
+  programs.gamemode.enable = true;
 
   environment.systemPackages = with pkgs; [ r2modman ];
 
