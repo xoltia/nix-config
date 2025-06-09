@@ -14,6 +14,7 @@
     ];
  
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -69,13 +70,12 @@
 
   programs.firefox.enable = true;
   programs.zsh.enable = true;
+
+  # Stuff for gaming.
   programs.steam.enable = true;
+  programs.steam.extraCompatPackages = with pkgs; [ proton-ge-bin ];
   programs.gamemode.enable = true;
-
   environment.systemPackages = with pkgs; [ r2modman ];
-
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = _: true;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
