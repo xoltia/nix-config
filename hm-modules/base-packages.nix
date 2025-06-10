@@ -42,6 +42,7 @@
       ++ lib.optionals config.basePackages.enableGuiApps [
         spotify
         discord
+        gimp3
       ];
   };
 }
