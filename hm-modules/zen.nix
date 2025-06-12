@@ -44,6 +44,7 @@
         "signon.rememberSignons" = false;
         "general.autoScroll" = true;
         "browser.translations.neverTranslateLanguages" = "ja";
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
       };
     };
   };
