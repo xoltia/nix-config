@@ -26,6 +26,8 @@
         jq
         zip
         unzip
+        ripgrep
+        fd
         ffmpeg
         imagemagick
         fastfetch
