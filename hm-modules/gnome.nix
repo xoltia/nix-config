@@ -9,7 +9,9 @@ in
 {
   home.packages = with pkgs; [
     showtime
-    mission-center
+    # TODO: try new mission center when 1.0 is in nixpkgs
+    # mission-center
+    resources
     pinta
   ] ++ extensions;
 
@@ -48,9 +50,9 @@ in
         "zen-twilight.desktop"
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
-        "spotify.desktop"
         "discord.desktop"
-        "io.missioncenter.MissionCenter.desktop"
+        "spotify.desktop"
+        "net.nokyan.Resources.desktop"
       ];
       disable-user-extensions = false;
       enabled-extensions = map (e: e.extensionUuid) extensions;
