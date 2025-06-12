@@ -45,6 +45,7 @@
         spotify
         discord
         gimp3
+        bottles
       ];
   };
 }
