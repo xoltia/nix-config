@@ -75,7 +75,11 @@
   programs.steam.enable = true;
   programs.steam.extraCompatPackages = with pkgs; [ proton-ge-bin ];
   programs.gamemode.enable = true;
-  environment.systemPackages = with pkgs; [ r2modman ];
+  environment.systemPackages = with pkgs; [
+    r2modman
+    rivalcfg # For mouse
+  ];
+  services.udev.packages = with pkgs; [ rivalcfg ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -83,6 +87,7 @@
       "luisl" = import ./home.nix;
     };
   };
+
 
   system.stateVersion = "25.05";
 }
