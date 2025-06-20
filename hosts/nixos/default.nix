@@ -11,6 +11,7 @@
       ../../modules/nvidia.nix
       ../../modules/ibus.nix
       ../../modules/gnome.nix
+      ../../modules/devenv.nix
     ];
  
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
