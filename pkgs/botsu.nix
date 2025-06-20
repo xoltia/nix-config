@@ -11,4 +11,12 @@ with pkgs; buildGoModule {
   };
   subPackages = ["cmd/botsu"];
   vendorHash = "sha256-VZcR86ylVHI2jt4VdgvM8VA4iJtA6OM9ZhHF3tuG/vs=";
+
+  nativeBuildInputs = [ makeWrapper ];
+  buildInputs = [ yt-dlp ];
+
+  postInstall = ''
+    wrapProgram $out/bin/botsu \
+      --prefix PATH : ${lib.makeBinPath [ yt-dlp ]}
+  '';
 }
