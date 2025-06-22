@@ -15,7 +15,7 @@
       right_format = "$time";
       add_newline = false;
       directory = {
-        truncation_length = 4;
+        truncation_length = 3;
         truncation_symbol = ".../";
         truncate_to_repo = false;
       };

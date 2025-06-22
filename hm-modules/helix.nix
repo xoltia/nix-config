@@ -3,6 +3,7 @@
 {  
   programs.helix = {
     enable = true;
+    defaultEditor = true;
     settings = {
       theme = "fleet_dark";
       editor = {
@@ -18,14 +19,12 @@
         };
       };
     };
-   
     languages = {
       language-server.tailwindcss-ls = {
         command = "tailwindcss-language-server";
         args = [ "--stdio" ];
         config.userLanguages = { templ = "html"; };
       };
-
       language = [
         {
           name = "templ";
@@ -35,5 +34,4 @@
     };
   };
 
-  home.sessionVariables.EDITOR = "hx";
 }
