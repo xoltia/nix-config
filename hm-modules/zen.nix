@@ -39,6 +39,7 @@
         "zen.welcome-screen.seen" = true;
         "zen.view.show-newtab-button-top" = false;
         "zen.theme.accent-color" = "#3584e4";
+        "zen.view.experimental-no-window-controls" = true;
         "extensions.autoDisableScopes" = 0;
         "signon.showAutoCompleteFooter" = false;
         "signon.rememberSignons" = false;
