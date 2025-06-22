@@ -38,7 +38,7 @@
       settings = {
         "zen.welcome-screen.seen" = true;
         "zen.view.show-newtab-button-top" = false;
-        "zen.theme.accent-color" = "#a0d490";
+        "zen.theme.accent-color" = "#3584e4";
         "extensions.autoDisableScopes" = 0;
         "signon.showAutoCompleteFooter" = false;
         "signon.rememberSignons" = false;
