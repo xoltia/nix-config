@@ -18,6 +18,22 @@
         };
       };
     };
+   
+    languages = {
+      language-server.tailwindcss-ls = {
+        command = "tailwindcss-language-server";
+        args = [ "--stdio" ];
+        config.userLanguages = { templ = "html"; };
+      };
+
+      language = [
+        {
+          name = "templ";
+          language-servers = [ "tailwindcss-ls" "templ" ];
+        }
+      ];
+    };
   };
+
   home.sessionVariables.EDITOR = "hx";
 }
