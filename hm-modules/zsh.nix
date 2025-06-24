@@ -1,7 +1,27 @@
 { lib, ... }:
 {
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable= true;
+    syntaxHighlighting.enable = true;
+    history.size = 10000;
+    initContent  = ''
+      bindkey '^[[1;5C' forward-word
+      bindkey '^[[1;5D' backward-word
+      # BACKGROUND_JOBS="%(1j. %F{red}[%j]%f.)"
+      # PS1="%K{blue}%n@%m%k %B%F{cyan}%~%f$BACKGROUND_JOBS%b %F{250}%%%f "
+    '';
+  };
+
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
+
+  programs.eza.enable = true;
+  programs.eza.enableZshIntegration = true;
+  programs.eza.git = true;
+  programs.eza.icons = true;
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -34,18 +54,5 @@
         format = "[$time]($style)";
       };
     };
-  };
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable= true;
-    syntaxHighlighting.enable = true;
-    history.size = 10000;
-    initContent  = ''
-      bindkey '^[[1;5C' forward-word
-      bindkey '^[[1;5D' backward-word
-      # BACKGROUND_JOBS="%(1j. %F{red}[%j]%f.)"
-      # PS1="%K{blue}%n@%m%k %B%F{cyan}%~%f$BACKGROUND_JOBS%b %F{250}%%%f "
-    '';
   };
 }
