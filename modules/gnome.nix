@@ -29,4 +29,13 @@
       gst-plugins-ugly
       gst-libav
     ]);
+
+
+  xdg.terminal-exec.enable = true;
+  xdg.terminal-exec.settings = {
+    GNOME = [
+      "com.mitchellh.ghostty.desktop"
+      "org.gnome.Console.desktop"
+    ];
+  };
 }
