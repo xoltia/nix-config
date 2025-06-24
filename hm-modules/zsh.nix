@@ -17,10 +17,16 @@
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
 
-  programs.eza.enable = true;
-  programs.eza.enableZshIntegration = true;
-  programs.eza.git = true;
-  programs.eza.icons = true;
+  programs.eza = {
+    enable = true;
+    enableZshIntegration = true;
+    git = true;
+    icons = true;
+    extraOptions = [
+      "--group-directories-first"
+      "--header"
+    ];
+  };
 
   programs.starship = {
     enable = true;
