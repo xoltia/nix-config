@@ -3,7 +3,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    autosuggestion.enable= true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     history.size = 10000;
     initContent  = ''
@@ -21,7 +21,7 @@
     enable = true;
     enableZshIntegration = true;
     git = true;
-    icons = true;
+    icons = "auto";
     extraOptions = [
       "--group-directories-first"
       "--header"
