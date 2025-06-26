@@ -6,6 +6,9 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     history.size = 10000;
+    shellAliases = {
+      lg = "ll --git --git-ignore";
+    };
     initContent  = ''
       bindkey '^[[1;5C' forward-word
       bindkey '^[[1;5D' backward-word
@@ -20,7 +23,6 @@
   programs.eza = {
     enable = true;
     enableZshIntegration = true;
-    git = true;
     icons = "auto";
     extraOptions = [
       "--group-directories-first"
