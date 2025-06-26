@@ -24,6 +24,12 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
+  fileSystems."/mnt/08EE4224EE420B00" =
+    { device = "/dev/disk/by-uuid/08EE4224EE420B00";
+      fsType = "auto";
+      options = [ "nosuid" "nodev" "nofail" "x-gvfs-show" ];
+    };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/94bc6f39-81a3-49da-9ce2-b111693a00b8"; }
     ];
