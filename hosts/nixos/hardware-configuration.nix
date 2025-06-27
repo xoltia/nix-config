@@ -26,8 +26,8 @@
 
   fileSystems."/mnt/08EE4224EE420B00" =
     { device = "/dev/disk/by-uuid/08EE4224EE420B00";
-      fsType = "auto";
-      options = [ "nosuid" "nodev" "nofail" "x-gvfs-show" ];
+      fsType = "ntfs-3g";
+      options = [ "nosuid" "nodev" "nofail" "x-gvfs-show" "rw" ];
     };
 
   swapDevices =
