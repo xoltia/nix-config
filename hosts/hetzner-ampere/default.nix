@@ -30,7 +30,7 @@
     home = "/home/luisl";
     extraGroups  = [ "wheel" "networkmanager" ];
     openssh.authorizedKeys.keys = [    
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo luisl@nixos"
     ];
   };
   

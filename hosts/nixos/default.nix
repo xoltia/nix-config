@@ -102,7 +102,7 @@
   };
 
   users.users."luisl".openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuHkhyxPAtN+Ug4b2HPUDjMyPcKCyQuQUmJdyH4g9ta"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuHkhyxPAtN+Ug4b2HPUDjMyPcKCyQuQUmJdyH4g9ta luisl@fedora"
   ];
 
   programs.nh = {
