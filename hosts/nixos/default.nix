@@ -89,6 +89,22 @@
     };
   };
 
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = false;
+      AllowUsers = [ "luisl" ];
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "no";
+    };
+  };
+
+  users.users."luisl".openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuHkhyxPAtN+Ug4b2HPUDjMyPcKCyQuQUmJdyH4g9ta"
+  ];
+
   programs.nh = {
     enable = true;
     clean.enable = true;
