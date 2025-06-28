@@ -89,5 +89,11 @@
     };
   };
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    flake = "/home/luisl/.nixos";
+  };
+
   system.stateVersion = "25.05";
 }
