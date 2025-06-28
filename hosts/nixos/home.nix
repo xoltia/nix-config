@@ -12,6 +12,7 @@
     ../../hm-modules/zsh.nix
     ../../hm-modules/ghostty.nix
     ../../hm-modules/stash.nix
+    ../../hm-modules/nh.nix
   ];
   nixpkgs.config.allowUnfree = true;
   home.username = "luisl";
