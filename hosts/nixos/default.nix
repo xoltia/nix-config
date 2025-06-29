@@ -108,6 +108,8 @@
   programs.nh = {
     enable = true;
     clean.enable = true;
+    clean.dates = "daily";
+    clean.extraArgs = "--keep 10 --keep-since 7d";
     flake = "/home/luisl/.nixos";
   };
 
