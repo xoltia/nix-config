@@ -45,7 +45,7 @@
         spotify
         discord
         gimp3
-        bottles
+        (bottles.override { removeWarningPopup = true; })
       ];
   };
 }
