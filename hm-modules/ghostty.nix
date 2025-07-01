@@ -8,7 +8,7 @@
     gtk-titlebar-hide-when-maximized = true;
     window-padding-balance = true;
     window-padding-color = "extend";
-    theme = "Adwaita Dark";
+    theme = "Dark+";
     mouse-hide-while-typing = true;
   };
 }

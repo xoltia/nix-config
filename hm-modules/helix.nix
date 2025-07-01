@@ -5,7 +5,7 @@
     enable = true;
     defaultEditor = true;
     settings = {
-      theme = "fleet_dark";
+      theme = "dark_plus";
       editor = {
         true-color = true;
         line-number = "relative";
