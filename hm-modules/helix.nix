@@ -4,6 +4,7 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+
     settings = {
       theme = "dark_plus";
       editor = {
@@ -17,8 +18,10 @@
           cursor-line = "error";
           other-lines = "disable";
         };
+        indent-guides.render = true;
       };
     };
+
     languages = {
       language-server.tailwindcss-ls = {
         command = "tailwindcss-language-server";
@@ -33,5 +36,4 @@
       ];
     };
   };
-
 }
