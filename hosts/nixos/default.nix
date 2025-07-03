@@ -22,6 +22,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.cleanOnBoot = true;
 
+  # Needed for VPN
+  networking.firewall.checkReversePath = "loose";
+
   networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
   # Set your time zone.
