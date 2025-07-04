@@ -13,9 +13,11 @@
       window-padding-balance = true;
       window-padding-color = "extend";
       keybind = [
-        # Tab creation and deletion
+        # Tab/window creation and deletion
         "ctrl+shift+t=new_tab"
         "ctrl+shift+w=close_tab"
+        "ctrl+shift+n=new_window"
+        "ctrl+shift+q=close_window"
 
         # Split resizing (ctrl + shift + <direction>)
         "ctrl+shift+up=resize_split:up,20"
