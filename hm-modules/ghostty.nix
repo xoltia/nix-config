@@ -13,6 +13,9 @@
       window-padding-balance = true;
       window-padding-color = "extend";
       keybind = [
+        "ctrl+shift+v=paste_from_clipboard"
+        "ctrl+shift+c=copy_to_clipboard"
+
         # Tab/window creation and deletion
         "ctrl+shift+t=new_tab"
         "ctrl+shift+w=close_tab"
