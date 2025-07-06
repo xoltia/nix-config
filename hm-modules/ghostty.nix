@@ -60,7 +60,7 @@
     themes = {
       fleet_dark = {
         background = "#181818";
-        foreground = "#f0f0f0";
+        foreground = "#e6e6e6";
         cursor-color = "#898989";
         selection-background = "#163764";
         selection-foreground = "#ffffff";
