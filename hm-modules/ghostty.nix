@@ -7,7 +7,7 @@
     settings = {
       gtk-titlebar-hide-when-maximized = true;
       mouse-hide-while-typing = true;
-      theme = "Dark+";
+      theme = "fleet_dark";
       window-height = 35;
       window-width = 120;
       window-padding-balance = true;
@@ -56,6 +56,33 @@
         "alt+8=goto_tab:8"
         "alt+9=goto_tab:9"
       ];
+    };
+    themes = {
+      fleet_dark = {
+        background = "#181818";
+        foreground = "#f0f0f0";
+        cursor-color = "#898989";
+        selection-background = "#163764";
+        selection-foreground = "#ffffff";
+        palette = [
+          "0=#000000"
+          "1=#ec7388"
+          "2=#a8cc7c"
+          "3=#ebc88d"
+          "4=#af9cff"
+          "5=#e394dc"
+          "6=#add1de"
+          "7=#767676"
+          "8=#5d5d5d"
+          "9=#ce364d"
+          "10=#4ca988"
+          "11=#e1971b"
+          "12=#c07bf3"
+          "13=#e394dc"
+          "14=#87c3ff"
+          "15=#d1d1d1"
+        ];
+      };
     };
   };
 }

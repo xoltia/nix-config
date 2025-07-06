@@ -6,7 +6,7 @@
     defaultEditor = true;
 
     settings = {
-      theme = "dark_plus";
+      theme = "fleet_dark";
       editor = {
         true-color = true;
         line-number = "relative";

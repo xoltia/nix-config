@@ -8,7 +8,7 @@
     extraConfig.init.defaultBranch = "main";
     delta.enable = true;
     delta.options = {
-      syntax-theme = "Visual Studio Dark+";
+      syntax-theme = "ansi";
     };
   };
 
