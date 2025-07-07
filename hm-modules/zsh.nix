@@ -12,8 +12,6 @@
     initContent  = ''
       bindkey '^[[1;5C' forward-word
       bindkey '^[[1;5D' backward-word
-      # BACKGROUND_JOBS="%(1j. %F{red}[%j]%f.)"
-      # PS1="%K{blue}%n@%m%k %B%F{cyan}%~%f$BACKGROUND_JOBS%b %F{250}%%%f "
     '';
   };
 
@@ -35,31 +33,23 @@
     enableZshIntegration = true;
     settings = {
       format = lib.concatStrings [       
+        "$hostname"
         "$directory"
+        "$git_branch"
         "$git_status"
+        "$git_state"
         "$jobs"
         "$character"
       ];
-      right_format = "$time";
       add_newline = false;
       directory = {
         truncation_length = 3;
         truncation_symbol = ".../";
         truncate_to_repo = false;
       };
-      jobs = {
-        format = "([\\[$symbol$number\\]]($style) )";
-        symbol = "+";
-        number_threshold = 1;
-      };
       character = rec {
         success_symbol = "[%](bold 250)";
         error_symbol = success_symbol;
-      };
-      time = {
-        disabled = false;
-        style = "bold bright-black";
-        format = "[$time]($style)";
       };
     };
   };
