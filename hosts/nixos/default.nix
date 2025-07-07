@@ -12,6 +12,7 @@
       ../../modules/ibus.nix
       ../../modules/gnome.nix
       ../../modules/devenv.nix
+      ../../modules/steam.nix
     ];
  
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -72,18 +73,11 @@
     shell = pkgs.zsh;
   };
 
+  # Extra programs and system packages.
   programs.firefox.enable = true;
   programs.zsh.enable = true;
-
-  # Stuff for gaming.
-  programs.steam.enable = true;
-  programs.steam.extraCompatPackages = with pkgs; [ proton-ge-bin ];
-  programs.gamemode.enable = true;
-  environment.systemPackages = with pkgs; [
-    r2modman
-    rivalcfg # For mouse
-  ];
-  services.udev.packages = with pkgs; [ rivalcfg ];
+  environment.systemPackages = [ pkgs.rivalcfg ];
+  services.udev.packages = [ pkgs.rivalcfg ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
