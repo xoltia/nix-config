@@ -6,9 +6,8 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./disk-config.nix
     ./hardware-configuration.nix
+    ../../modules/botsu.nix
   ];
-
-  nixpkgs.overlays = [(final: prev: { botsu = prev.callPackage ../../pkgs/botsu.nix { }; })];
 
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
@@ -16,13 +15,13 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
+
   services.openssh.enable = true;
 
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
     pkgs.gitMinimal
     pkgs.helix
-    pkgs.botsu
   ];
 
   users.users.luisl = {
@@ -41,42 +40,23 @@
     };
   };
 
-  users.users.botsu = {
-    isSystemUser = true;
-    description = "Service account for botsu";
-    home = "/var/lib/botsu";
-    group = "botsu";
-    createHome = true;
-  };
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
 
-  users.groups.botsu = { };
+  sops.secrets."botsu/discord_token".owner = "botsu";
+  sops.secrets."botsu/youtube_api_key".owner = "botsu";
 
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_16;     
     dataDir = "/var/lib/postgresql/16";
-    ensureDatabases = [ "botsu" ];
-    ensureUsers = [
-      {
-        name = "botsu";
-        ensureDBOwnership = true;
-      }
-    ];
   };
 
-  systemd.services.botsu = {
-    description = "Botsu application service";
-    after = [ "postgresql.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      User = "botsu";
-      WorkingDirectory = "/var/lib/botsu";
-      ExecStart = "${pkgs.botsu}/bin/botsu";
-      Restart = "on-failure";
-      Environment = [
-        "BOTSU_CONNECTION_STRING=postgresql:///botsu?host=/run/postgresql"
-      ];
-    };
+  services.botsu = {
+    enable = true;
+    tokenFile = config.sops.secrets."botsu/discord_token".path;
+    youtubeKey = config.sops.secrets."botsu/youtube_api_key".path;
   };
 
   system.stateVersion = "24.05";
