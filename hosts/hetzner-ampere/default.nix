@@ -88,7 +88,12 @@
     virtualHosts."imgproxy.jllamas.dev" = {
       addSSL = true;
       enableACME = true;
-      locations."/".proxyPass = "http://127.0.0.1:5300";
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:5300";
+        extraConfig = ''
+          add_header Access-Control-Allow-Origin *;
+        '';
+      };
     };
   };
 
