@@ -2,12 +2,12 @@
 
 with pkgs; buildGoModule {
   pname = "botsu";
-  version = "0.3.4-dev.881c0d8";
+  version = "0.3.4";
   src = fetchFromGitHub {
     owner = "xoltia";
     repo = "botsu";
-    rev = "881c0d8f825791f79c07cd8ecd98641c2c1b9c56";
-    hash = "sha256-wiVW/TtZRkbRAcih7tOJTpNXat2HWctvyQFjSjdy2O0=";
+    rev = "v0.3.4";
+    hash = "sha256-3kqHFMwB/5w8ucynxoMXMOiQjHkTUdbi/C18zd40hII=";
   };
   subPackages = ["cmd/botsu"];
   vendorHash = "sha256-VZcR86ylVHI2jt4VdgvM8VA4iJtA6OM9ZhHF3tuG/vs=";
