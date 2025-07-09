@@ -7,6 +7,7 @@
     ./disk-config.nix
     ./hardware-configuration.nix
     ../../modules/botsu.nix
+    ../../modules/imgproxy.nix
   ];
 
   boot.loader.grub = {
@@ -48,10 +49,13 @@
   sops.defaultSopsFormat = "yaml";
   sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
 
-  sops.secrets."botsu/discord_token".owner = "botsu";
-  sops.secrets."botsu/youtube_api_key".owner = "botsu";
+  sops.secrets."botsu/discord_token".owner = config.users.users.botsu.name;
+  sops.secrets."botsu/youtube_api_key".owner = config.users.users.botsu.name;
   sops.secrets."botsu/discord_token".restartUnits = [ "botsu.service" ];
   sops.secrets."botsu/youtube_api_key".restartUnits = [ "botsu.service" ];
+  
+  sops.secrets."imgproxy/key".owner = config.users.users.imgproxy.name;
+  sops.secrets."imgproxy/salt".owner = config.users.users.imgproxy.name;
 
   services.postgresql = {
     enable = true;
@@ -65,6 +69,13 @@
     youtubeKeyFile = config.sops.secrets."botsu/youtube_api_key".path;
   };
 
+  services.imgproxy = {
+    enable = true;
+    keyFile = config.sops.secrets."imgproxy/key".path;
+    saltFile = config.sops.secrets."imgproxy/salt".path;
+    bindAddr = "127.0.0.0:5300";
+  };
+
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   services.nginx = {
@@ -73,6 +84,11 @@
       addSSL = true;
       enableACME = true;
       globalRedirect = "xoltia.github.io";
+    };
+    virtualHosts."imgproxy.jllamas.dev" = {
+      addSSL = true;
+      enableACME = true;
+      locations."/".proxyPass = "http://127.0.0.1:5300";
     };
   };
 
