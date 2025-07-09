@@ -1,4 +1,4 @@
-{ modulesPath, lib, pkgs, inputs, ... }:
+{ modulesPath, lib, pkgs, inputs, config, ... }:
 
 {
   imports = [
@@ -56,7 +56,7 @@
   services.botsu = {
     enable = true;
     tokenFile = config.sops.secrets."botsu/discord_token".path;
-    youtubeKey = config.sops.secrets."botsu/youtube_api_key".path;
+    youtubeKeyFile = config.sops.secrets."botsu/youtube_api_key".path;
   };
 
   system.stateVersion = "24.05";
