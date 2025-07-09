@@ -73,7 +73,7 @@
     enable = true;
     keyFile = config.sops.secrets."imgproxy/key".path;
     saltFile = config.sops.secrets."imgproxy/salt".path;
-    bindAddr = "127.0.0.0:5300";
+    bindAddr = "127.0.0.1:5300";
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];

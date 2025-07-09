@@ -19,12 +19,10 @@ in
     };
     saltFile = mkOption {
       type = types.path;
-      default = "";
       description = "Path to salt file used for signing.";
     };
     keyFile = mkOption {
       type = types.path;
-      default = "";
       description = "Path to key file used for signing.";
     };
     extraConfig = mkOption {
@@ -47,7 +45,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ imgproxy ];
+    environment.systemPackages = [ pkgs.imgproxy ];
 
     users.users.imgproxy = {
       isSystemUser = true;
@@ -63,14 +61,14 @@ in
       description = "Imgproxy server service";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
+      environment =
+        let
+          baseConfig = { BIND = cfg.bindAddr; };
+        in
+          addImgproxyPrefix (baseConfig // cfg.extraConfig);
       serviceConfig = {
         User = "imgproxy";
         Group = "imgproxy";
-        Environment =
-          let
-            baseConfig = { BIND = cfg.bindAddr; };
-          in
-            addImgproxyPrefix (baseConfig // cfg.extraConfig);
         ExecStart = "${pkgs.imgproxy}/bin/imgproxy -saltpath=${cfg.saltFile} -keypath=${cfg.keyFile}";
         Restart = "always";
       };
