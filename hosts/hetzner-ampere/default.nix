@@ -65,5 +65,21 @@
     youtubeKeyFile = config.sops.secrets."botsu/youtube_api_key".path;
   };
 
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  services.nginx = {
+    enable = true;
+    virtualHosts."jllamas.dev" = {
+      addSSL = true;
+      enableACME = true;
+      globalRedirect = "xoltia.github.io";
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "llamas.jnl@gmail.com";
+  };
+
   system.stateVersion = "24.05";
 }
