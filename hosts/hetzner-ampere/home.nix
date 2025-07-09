@@ -4,6 +4,7 @@
   imports = [
     ../../hm-modules/git.nix
     ../../hm-modules/helix.nix
+    ../../hm-modules/zsh.nix
   ];
   home.username = "luisl";
   home.homeDirectory = "/home/luisl";

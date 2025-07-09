@@ -26,6 +26,7 @@
     pkgs.helix
   ];
 
+  programs.zsh.enable = true;
   users.users.luisl = {
     isNormalUser = true;
     home = "/home/luisl";
@@ -33,6 +34,7 @@
     openssh.authorizedKeys.keys = [    
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo luisl@nixos"
     ];
+    shell = pkgs.zsh;
   };
   
   home-manager = {
