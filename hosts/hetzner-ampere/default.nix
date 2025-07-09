@@ -48,6 +48,8 @@
 
   sops.secrets."botsu/discord_token".owner = "botsu";
   sops.secrets."botsu/youtube_api_key".owner = "botsu";
+  sops.secrets."botsu/discord_token".restartUnits = "botsu.service";
+  sops.secrets."botsu/youtube_api_key".restartUnits = "botsu.service";
 
   services.postgresql = {
     enable = true;
