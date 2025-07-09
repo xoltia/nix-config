@@ -80,11 +80,13 @@
 
   services.nginx = {
     enable = true;
+
     virtualHosts."jllamas.dev" = {
       addSSL = true;
       enableACME = true;
       globalRedirect = "xoltia.github.io";
     };
+
     virtualHosts."imgproxy.jllamas.dev" = {
       addSSL = true;
       enableACME = true;
@@ -92,8 +94,18 @@
         proxyPass = "http://127.0.0.1:5300";
         extraConfig = ''
           add_header Access-Control-Allow-Origin *;
+          proxy_cache imgproxy_cache;
+          proxy_cache_valid 200 7d;
+          proxy_cache_valid 404 1h;
         '';
       };
+    };
+
+    proxyCachePath.imgproxy-cache = {
+      enable = true;
+      keysZoneName = "imgproxy_cache";
+      inactive = "1d";
+      maxSize = "1g";
     };
   };
 
