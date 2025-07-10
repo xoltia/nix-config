@@ -44,6 +44,7 @@
       ++ lib.optionals config.basePackages.enableGuiApps [
         spotify
         discord
+        amberol
         gimp3
         (bottles.override { removeWarningPopup = true; })
       ];
