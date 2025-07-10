@@ -4,6 +4,7 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
+    (modulesPath + "/services/backup/postgresql-backup.nix")
     ./disk-config.nix
     ./hardware-configuration.nix
     ../../modules/botsu.nix
@@ -17,17 +18,17 @@
     efiInstallAsRemovable = true;
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  services.openssh.enable = true;
-
   environment.systemPackages = map lib.lowPrio [
     pkgs.curl
     pkgs.gitMinimal
     pkgs.helix
   ];
 
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  services.openssh.enable = true;
   programs.zsh.enable = true;
+
   users.users.luisl = {
     isNormalUser = true;
     home = "/home/luisl";
@@ -61,6 +62,12 @@
     enable = true;
     package = pkgs.postgresql_16;     
     dataDir = "/var/lib/postgresql/16";
+  };
+
+  services.postgresqlBackup = {
+    enable = true;
+    databases = [ "botsu" ];
+    compression = "gzip";
   };
 
   services.botsu = {
