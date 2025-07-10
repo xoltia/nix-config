@@ -9,6 +9,7 @@
     ./hardware-configuration.nix
     ../../modules/botsu.nix
     ../../modules/imgproxy.nix
+    ../../modules/postgresql-backup-archive.nix
   ];
 
   boot.loader.grub = {
@@ -50,13 +51,18 @@
   sops.defaultSopsFormat = "yaml";
   sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
 
+  # Secrets for running the Botsu Discord bot
   sops.secrets."botsu/discord_token".owner = config.users.users.botsu.name;
   sops.secrets."botsu/youtube_api_key".owner = config.users.users.botsu.name;
   sops.secrets."botsu/discord_token".restartUnits = [ "botsu.service" ];
   sops.secrets."botsu/youtube_api_key".restartUnits = [ "botsu.service" ];
-  
+
+  # Secrets for running improxy service
   sops.secrets."imgproxy/key".owner = config.users.users.imgproxy.name;
   sops.secrets."imgproxy/salt".owner = config.users.users.imgproxy.name;
+
+  # rclone config files, currently used for postgres archival
+  sops.secrets."rclone/mega-s4-amsterdam" = { };
 
   services.postgresql = {
     enable = true;
@@ -68,6 +74,12 @@
     enable = true;
     databases = [ "botsu" ];
     compression = "gzip";
+  };
+
+  services.postgresqlBackupArchive = {
+    rcloneConfigFile = config.sops.secrets."rclone/mega-s4-amsterdam".path;
+    rcloneRemote = "mega-s4:pgarchive";
+    databases = [ "botsu" ];
   };
 
   services.botsu = {
