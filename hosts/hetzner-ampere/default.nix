@@ -87,6 +87,12 @@
       globalRedirect = "xoltia.github.io";
     };
 
+    virtualHosts."www.jllamas.dev" = {
+      addSSL = true;
+      enableACME = true;
+      globalRedirect = "jllamas.dev";
+    };
+
     virtualHosts."imgproxy.jllamas.dev" = {
       addSSL = true;
       enableACME = true;
