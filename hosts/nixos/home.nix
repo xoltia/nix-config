@@ -13,7 +13,6 @@
     ../../hm-modules/ghostty.nix
     ../../hm-modules/stash.nix
   ];
-  nixpkgs.config.allowUnfree = true;
   home.username = "luisl";
   home.homeDirectory = "/home/luisl";
   programs.home-manager.enable = true;
