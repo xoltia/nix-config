@@ -51,7 +51,8 @@ in
 
     systemd.services.botsu = {
       description = "Botsu application service";
-      after = [ "postgresql.service" ];
+      after = [ "network-online.target" "postgresql.service" ];
+      wants = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
       script = ''
         export BOTSU_CONNECTION_STRING=postgresql:///botsu?host=/run/postgresql
@@ -64,6 +65,7 @@ in
         User = "botsu";
         WorkingDirectory = "/var/lib/botsu";
         Restart = "on-failure";
+        RestartSec = 5;
       };
     };
   };
