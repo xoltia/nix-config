@@ -34,30 +34,30 @@
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos-desktop = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/nixos
+          ./hosts/nixos-desktop
           inputs.home-manager.nixosModules.default
         ];
       };
 
-      nixosConfigurations.hetzner-ampere = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos-hetzner-vps = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/hetzner-ampere
+          ./hosts/nixos-hetzner-vps
           inputs.disko.nixosModules.default
           inputs.home-manager.nixosModules.default
           inputs.sops-nix.nixosModules.default
         ];
       };
 
-      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos-wsl= nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/wsl
+          ./hosts/nixos-wsl
           inputs.home-manager.nixosModules.default
           inputs.nixos-wsl.nixosModules.default
           inputs.sops-nix.nixosModules.default

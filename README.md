@@ -1,9 +1,9 @@
 # Nix Config
 
 This is the repository for my NixOS configuration. I currently use it to configure three different hosts:
-- Primary Desktop (`nixos`)
-- Hetzner ARM VPS (`hetzner-ampere`)
-- Windows WSL2 NixOS (`wsl`)
+- `nixos-desktop`: Primary Desktop
+- `nixos-hetzner-vps`: Hetzner ARM VPS
+- `nixos-wsl`: Windows WSL2 NixOS
 
 The general structure is as follows:
 - `modules`: NixOS modules for setting configuration and custom services

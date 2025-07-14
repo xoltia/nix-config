@@ -31,7 +31,7 @@
     "149.112.112.112"
   ];
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos-desktop"; # Define your hostname.
   networking.networkmanager.enable = true;
   # Set your time zone.
   time.timeZone = "America/Chicago";

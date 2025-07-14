@@ -25,7 +25,7 @@
     pkgs.helix
   ];
 
-
+  networking.hostName = "nixos-hetzner-vps";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   services.openssh.enable = true;
   programs.zsh.enable = true;

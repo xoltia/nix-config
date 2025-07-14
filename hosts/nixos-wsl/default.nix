@@ -7,6 +7,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   wsl.enable = true;
   wsl.defaultUser = "nixos";
+  networking.hostName = "nixos-wsl";
   system.stateVersion = "24.11";
 
   users.users.nixos = {
