@@ -59,7 +59,8 @@ in
         export BOTSU_TOKEN=$(cat ${cfg.tokenFile})
         export BOTSU_GOOGLE_API_KEY=$(cat ${cfg.youtubeKeyFile})
         export BOTSU_USE_MEMBERS_INTENT=1
-        ${pkgs.botsu}/bin/botsu
+        export BOTSU_DATA_UPDATE_INTERVAL=80000h
+        ${pkgs.botsu}/bin/botsu --skip-data-update
       '';
       serviceConfig = {
         User = "botsu";
