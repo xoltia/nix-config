@@ -54,12 +54,19 @@
   # Secrets for running the Botsu Discord bot
   sops.secrets."botsu/discord_token".owner = config.users.users.botsu.name;
   sops.secrets."botsu/youtube_api_key".owner = config.users.users.botsu.name;
+  sops.secrets."botsu/oshi_stats_oauth_secret".owner = config.users.users.botsu.name;
   sops.secrets."botsu/discord_token".restartUnits = [ "botsu.service" ];
   sops.secrets."botsu/youtube_api_key".restartUnits = [ "botsu.service" ];
+  sops.secrets."botsu/oshi_stats_oauth_secret".restartUnits = [ "botsu-oshi-stats-server.service" ];
 
   # Secrets for running improxy service
   sops.secrets."imgproxy/key".owner = config.users.users.imgproxy.name;
   sops.secrets."imgproxy/salt".owner = config.users.users.imgproxy.name;
+
+  sops.secrets.botsu-imgproxy-key.owner = config.users.users.botsu.name;
+  sops.secrets.botsu-imgproxy-salt.owner = config.users.users.botsu.name;
+  sops.secrets.botsu-imgproxy-key.key = "imgproxy/key";
+  sops.secrets.botsu-imgproxy-salt.key = "imgproxy/salt";
 
   # rclone config files, currently used for postgres archival
   sops.secrets."rclone/mega-s4-amsterdam" = { };
@@ -84,8 +91,16 @@
 
   services.botsu = {
     enable = true;
+    enableOshiStats = false;
     tokenFile = config.sops.secrets."botsu/discord_token".path;
     youtubeKeyFile = config.sops.secrets."botsu/youtube_api_key".path;
+    oshiStatsAddr = "127.0.0.1:5301";
+    oshiStatsOauthRedirect = "https://oshistats.jllamas.dev";
+    oshiStatsOauthClientId = "1391866556929278024";
+    oshiStatsOauthClientSecretFile = config.sops.secrets."botsu/oshi_stats_oauth_secret".path;
+    oshiStatsImgproxyHost = "https://imgproxy.jllamas.dev";
+    oshiStatsImgproxySaltFile = config.sops.secrets.botsu-imgproxy-salt.path;
+    oshiStatsImgproxyKeyFile = config.sops.secrets.botsu-imgproxy-key.path;
   };
 
   services.imgproxy = {

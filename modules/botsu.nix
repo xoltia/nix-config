@@ -37,11 +37,15 @@ in
     };
     oshiStatsOauthClientSecretFile = mkOption {
       type = types.path;
-      description = "Discord OAuth client secret file."
+      description = "Discord OAuth client secret file.";
     };
     oshiStatsOauthClientId = mkOption {
       type = types.str;
       description = "Discord OAuth client ID.";
+    };
+    oshiStatsOauthRedirect = mkOption {
+      type = types.str;
+      description = "Discord OAuth redirect URL.";
     };
     oshiStatsAddr = mkOption {
       type = types.str;
@@ -150,6 +154,7 @@ in
       script = ''
         ${pkgs.botsu}/bin/server \
           -addr="${cfg.oshiStatsAddr}" \
+          -oauth-redirect-url="${cfg.oshiStatsOauthRedirect}" \
           -oauth-client-id="${cfg.oshiStatsOauthClientId}" \
           -oauth-client-secret="$(cat ${cfg.oshiStatsOauthClientSecretFile})" \
           -imgproxy-host="${cfg.oshiStatsImgproxyHost}" \
