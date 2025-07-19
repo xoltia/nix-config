@@ -91,14 +91,14 @@
 
   services.botsu = {
     enable = true;
-    enableOshiStats = false;
+    enableOshiStats = true;
     tokenFile = config.sops.secrets."botsu/discord_token".path;
     youtubeKeyFile = config.sops.secrets."botsu/youtube_api_key".path;
     oshiStatsAddr = "127.0.0.1:5301";
-    oshiStatsOauthRedirect = "https://oshistats.jllamas.dev";
+    oshiStatsOauthRedirect = "https://oshistats.jllamas.dev/auth/callback";
     oshiStatsOauthClientId = "1391866556929278024";
     oshiStatsOauthClientSecretFile = config.sops.secrets."botsu/oshi_stats_oauth_secret".path;
-    oshiStatsImgproxyHost = "https://imgproxy.jllamas.dev";
+    oshiStatsImgproxyHost = "imgproxy.jllamas.dev";
     oshiStatsImgproxySaltFile = config.sops.secrets.botsu-imgproxy-salt.path;
     oshiStatsImgproxyKeyFile = config.sops.secrets.botsu-imgproxy-key.path;
   };
@@ -127,6 +127,12 @@
       globalRedirect = "jllamas.dev";
     };
 
+    virtualHosts."oshistats.jllamas.dev" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/".proxyPass = "http://127.0.0.1:5301";
+    };
+
     virtualHosts."imgproxy.jllamas.dev" = {
       addSSL = true;
       enableACME = true;
@@ -136,7 +142,7 @@
           add_header Access-Control-Allow-Origin *;
           proxy_cache imgproxy_cache;
           proxy_cache_valid 200 7d;
-          proxy_cache_valid 404 1h;
+          proxy_cache_valid 404 1m;
         '';
       };
     };

@@ -126,7 +126,7 @@ in
       '';
       serviceConfig = {
         User = "botsu";
-        Type = "oneshot";
+        Type = "simple";
         WorkingDirectory = "/var/lib/botsu";
         Restart = "on-failure";
       };
@@ -139,8 +139,8 @@ in
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         User = "botsu";
-        Type = "oneshot";
-        Exec = "${pkgs.botsu-oshi-stats}/bin/indexer -db-url=postgresql:///botsu?host=/run/postgresql";
+        Type = "simple";
+        ExecStart = "${pkgs.botsu-oshi-stats}/bin/indexer -db-url=postgresql:///botsu?host=/run/postgresql";
         WorkingDirectory = "/var/lib/botsu";
         Restart = "on-failure";
       };
@@ -152,7 +152,7 @@ in
       wants = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
       script = ''
-        ${pkgs.botsu}/bin/server \
+        ${pkgs.botsu-oshi-stats}/bin/server \
           -addr="${cfg.oshiStatsAddr}" \
           -oauth-redirect-url="${cfg.oshiStatsOauthRedirect}" \
           -oauth-client-id="${cfg.oshiStatsOauthClientId}" \
@@ -179,9 +179,9 @@ in
 
     systemd.timers.botsu-oshi-stats-updater = mkIf cfg.enableOshiStats {
       wantedBy = [ "timers.target" ];
-      partOf = [ "botsu-oshi-stats-indexer.service" ];
+      partOf = [ "botsu-oshi-stats-updater.service" ];
       timerConfig = {
-        OnCalendar = cfg.oshiStatsIndexerCalender;
+        OnCalendar = cfg.oshiStatsUpdaterCalender;
         Persistent = true;
       };
     };
