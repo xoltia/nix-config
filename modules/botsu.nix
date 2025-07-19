@@ -119,7 +119,6 @@ in
       description = "Botsu OshiStats data updater service";
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
       script = ''
         export BOTSU_GOOGLE_API_KEY=$(cat ${cfg.oshiStatsYoutubeKeyFile})
         ${pkgs.botsu-oshi-stats}/bin/updater -google-api-key=$BOTSU_GOOGLE_API_KEY
@@ -136,7 +135,6 @@ in
       description = "Botsu OshiStats indexer service";
       after = [ "network-online.target" ];
       wants = [ "network-online.target" "botsu.service" ];
-      wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         User = "botsu";
         Type = "simple";
