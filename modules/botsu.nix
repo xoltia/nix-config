@@ -98,7 +98,7 @@ in
     systemd.services.botsu = {
       description = "Botsu application service";
       after = [ "network-online.target" "postgresql.service" ];
-      wants = [ "network-online.target" ];
+      wants = [ "network-online.target" "postgresql.service" ];
       wantedBy = [ "multi-user.target" ];
       script = ''
         export BOTSU_CONNECTION_STRING=postgresql:///botsu?host=/run/postgresql
@@ -133,8 +133,8 @@ in
 
     systemd.services.botsu-oshi-stats-indexer = mkIf cfg.enableOshiStats {
       description = "Botsu OshiStats indexer service";
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" "botsu.service" ];
+      after = [ "postgresql.service" ];
+      wants = [ "postgresql.service" ];
       serviceConfig = {
         User = "botsu";
         Type = "simple";
@@ -146,8 +146,8 @@ in
 
     systemd.services.botsu-oshi-stats-server = mkIf cfg.enableOshiStats {
       description = "Botsu OshiStats website server service";
-      after = [ "network-online.target" ];
-      wants = [ "network-online.target" ];
+      after = [ "network.target" ];
+      wants = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       script = ''
         ${pkgs.botsu-oshi-stats}/bin/server \
