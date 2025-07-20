@@ -114,6 +114,9 @@
 
   services.nginx = {
     enable = true;
+    recommendedBrotliSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
 
     virtualHosts."jllamas.dev" = {
       addSSL = true;
