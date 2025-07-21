@@ -12,11 +12,22 @@
     initContent  = ''
       bindkey '^[[1;5C' forward-word
       bindkey '^[[1;5D' backward-word
+
+      zstyle ':completion:*' menu select
+      zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
+      zmodload -i zsh/complist
+      bindkey -M menuselect '^[[Z' reverse-menu-complete
+
+      autoload -z edit-command-line
+      zle -N edit-command-line
+      bindkey '^X^E' edit-command-line
     '';
   };
 
-  programs.fzf.enable = true;
-  programs.fzf.enableZshIntegration = true;
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   programs.eza = {
     enable = true;
