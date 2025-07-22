@@ -8,6 +8,9 @@
       gtk-titlebar-hide-when-maximized = true;
       mouse-hide-while-typing = true;
       theme = "fleet_dark";
+      cursor-style = "block";
+      cursor-style-blink = true;
+      shell-integration-features = "no-cursor";
       window-height = 35;
       window-width = 120;
       window-padding-balance = true;
