@@ -6,7 +6,7 @@
     ../../hm-modules/default-applications.nix
     ../../hm-modules/gnome.nix
     ../../hm-modules/git.nix
-    ../../hm-modules/zen.nix
+    ../../hm-modules/firefox.nix
     ../../hm-modules/helix.nix
     ../../hm-modules/direnv.nix
     ../../hm-modules/zsh.nix

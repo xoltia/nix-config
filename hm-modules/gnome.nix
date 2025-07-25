@@ -47,7 +47,7 @@ in
 
     "org/gnome/shell" = {
       favorite-apps = [
-        "zen-twilight.desktop"
+        "firefox.desktop"
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
         "discord.desktop"
