@@ -32,7 +32,6 @@
       ];
       # about:config options
       settings = {
-        "browser.translations.neverTranslateLanguages" = "ja";
         "extensions.autoDisableScopes" = 0;
         "general.autoScroll" = true;
         "sidebar.main.tools" = "syncedtabs,history,bookmarks";
@@ -42,6 +41,9 @@
         "signon.rememberSignons" = false;
         "signon.showAutoCompleteFooter" = false;
         "widget.use-xdg-desktop-portal.file-picker" = 1;
+        "browser.translations.neverTranslateLanguages" = "ja";
+        "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+        "browser.newtabpage.activity-stream.feeds.topsites" = false;
         "browser.uiCustomization.state" = ''
           {
             "placements": {
@@ -65,8 +67,8 @@
                 "unified-extensions-button",
                 "firefox-view-button",
                 "alltabs-button",
-                "fxa-toolbar-menu-button",
-                "reset-pbm-toolbar-button"
+                "reset-pbm-toolbar-button",
+                "fxa-toolbar-menu-button"
               ],
               "toolbar-menubar": [
                 "menubar-items"
@@ -80,7 +82,24 @@
                 "personal-bookmarks",
                 "fxms-bmb-button"
               ]
-            }
+            },
+            "seen": [
+              "ublock0_raymondhill_net-browser-action",
+              "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action",
+              "sponsorblocker_ajay_app-browser-action",
+              "developer-button",
+              "screenshot-button"
+            ],
+            "dirtyAreaCache": [
+              "unified-extensions-area",
+              "nav-bar",
+              "toolbar-menubar",
+              "TabsToolbar",
+              "vertical-tabs",
+              "PersonalToolbar"
+            ],
+            "currentVersion": 22,
+            "newElementCount": 1
           }
         '';
       };
