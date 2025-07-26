@@ -24,11 +24,11 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  fileSystems."/mnt/08EE4224EE420B00" =
-    { device = "/dev/disk/by-uuid/08EE4224EE420B00";
-      fsType = "ntfs-3g";
-      options = [ "nosuid" "nodev" "nofail" "x-gvfs-show" "rw" "uid=1000" ];
-    };
+  # fileSystems."/mnt/08EE4224EE420B00" =
+  #   { device = "/dev/disk/by-uuid/08EE4224EE420B00";
+  #     fsType = "ntfs-3g";
+  #     options = [ "nosuid" "nodev" "nofail" "x-gvfs-show" "rw" "uid=1000" ];
+  #   };
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/94bc6f39-81a3-49da-9ce2-b111693a00b8"; }
