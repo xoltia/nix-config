@@ -28,7 +28,7 @@ in
     };
     backupSuffix = mkOption {
       type = types.str;
-      default = ".sql" ++ (
+      default = ".sql" + (
         let c = backupCfg.compression; in
           if c == "zstd" then
             ".zst"
@@ -50,7 +50,7 @@ in
       map (db:
         {
           assertion = builtins.elem db backupCfg.databases;
-          messafe = db ++ " is not present in backup databases";
+          message = db + " is not present in backup databases";
         }
       )
       cfg.databases
@@ -62,7 +62,8 @@ in
           script = archiveScript db;
         in
         {
-          name = "postgresql-backup-archive-${db}";
+          # This is the unit created by the posgresqlBackup service.
+          name = "postgresqlBackup-${db}";
           value = {
             serviceConfig = {
               ExecStartPost = "${script}/bin/pg-db-archive";
