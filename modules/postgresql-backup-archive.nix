@@ -1,14 +1,14 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.services.postgresqlBackupArchive;
+  backupCfg = config.services.postgresqlBackup;
   archiveScript = dbName:
     pkgs.writeShellScriptBin "pg-db-archive" ''
-      dirBackup="${config.services.postgresqlBackup.location}"
-      fileBackup="''${dirBackup}/${dbName}${cfg.backupSuffix}"
-      fileArchive="${dbName}_$(date --utc +%Y-%m-%dT%H-%M-%SZ)${cfg.backupSuffix}"
+      localPath="${backupCfg.location}/${dbName}${cfg.backupSuffix}"
+      remotePath="${dbName}_$(date --utc +%Y-%m-%dT%H-%M-%SZ)${cfg.backupSuffix}"
       ${pkgs.rclone}/bin/rclone \
         --config "$CREDENTIALS_DIRECTORY/rclone-config" \
-        copyto "''${fileBackup}" "${cfg.rcloneRemote}/''${fileArchive}"
+        copyto "''${localPath}" "${cfg.rcloneRemote}/''${remotePath}"
     '';
 in
 {
@@ -28,7 +28,15 @@ in
     };
     backupSuffix = mkOption {
       type = types.str;
-      default = ".sql.gz";
+      default = ".sql" ++ (
+        let c = backupCfg.compression; in
+          if c == "zstd" then
+            ".zst"
+          else if c == "gzip" then
+            ".gz"
+          else
+            ""
+      );
     };
   };
 
@@ -38,7 +46,15 @@ in
         assertion = cfg.rcloneConfigFile != "" && cfg.rcloneRemote != "";
         message = "rcloneConfigFile and rcloneRemote must be specified";
       }
-    ];
+    ] ++ (
+      map (db:
+        {
+          assertion = builtins.elem db backupCfg.databases;
+          messafe = db ++ " is not present in backup databases";
+        }
+      )
+      cfg.databases
+    );
     
     systemd.services = lib.listToAttrs (
       map (db:
@@ -46,7 +62,7 @@ in
           script = archiveScript db;
         in
         {
-          name = "postgresqlBackup-${db}";
+          name = "postgresql-backup-archive-${db}";
           value = {
             serviceConfig = {
               ExecStartPost = "${script}/bin/pg-db-archive";
