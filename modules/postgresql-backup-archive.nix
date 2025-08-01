@@ -1,3 +1,7 @@
+# This service provides additional functionality to the `postgresqlBackup` service by
+# allowing for automatic archival to a remote source using rclone. Currently this only
+# works with databases explicitly listed in `services.postgresqlBackup.databases`,
+# and does not work when using `services.postgresqlBackup.backupAll`.
 { config, pkgs, lib, ... }:
 let
   cfg = config.services.postgresqlBackupArchive;
@@ -31,7 +35,7 @@ in
       default = ".sql" + (
         let c = backupCfg.compression; in
           if c == "zstd" then
-            ".zst"
+            ".zstd"
           else if c == "gzip" then
             ".gz"
           else
