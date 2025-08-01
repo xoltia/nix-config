@@ -80,7 +80,8 @@
   services.postgresqlBackup = {
     enable = true;
     databases = [ "botsu" ];
-    compression = "gzip";
+    compression = "zstd";
+    compressionLevel = 19;
   };
 
   services.postgresqlBackupArchive = {
