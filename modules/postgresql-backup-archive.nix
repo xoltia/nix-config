@@ -70,7 +70,7 @@ in
           name = "postgresqlBackup-${db}";
           value = {
             serviceConfig = {
-              ExecStartPost = "${script}/bin/pg-db-archive";
+              ExecStartPost = [ "${script}/bin/pg-db-archive" ];
               LoadCredential = [ "rclone-config:${cfg.rcloneConfigFile}" ];
             };
           };
