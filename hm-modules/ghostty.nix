@@ -68,7 +68,7 @@
         selection-background = "#163764";
         selection-foreground = "#ffffff";
         palette = [
-          "0=#000000"
+          "0=#121212"
           "1=#ec7388"
           "2=#a8cc7c"
           "3=#ebc88d"
@@ -81,7 +81,7 @@
           "10=#4ca988"
           "11=#e1971b"
           "12=#c07bf3"
-          "13=#e394dc"
+          "13=#db72d2"
           "14=#87c3ff"
           "15=#d1d1d1"
         ];
