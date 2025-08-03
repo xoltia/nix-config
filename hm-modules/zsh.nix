@@ -32,6 +32,7 @@
   programs.eza = {
     enable = true;
     enableZshIntegration = true;
+    enableNushellIntegration = false;
     icons = "auto";
     extraOptions = [
       "--group-directories-first"
@@ -42,6 +43,7 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    enableNushellIntegration = false;
     settings = {
       format = lib.concatStrings [       
         "$hostname"

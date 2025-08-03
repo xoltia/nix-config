@@ -12,9 +12,11 @@
     ../../hm-modules/zsh.nix
     ../../hm-modules/ghostty.nix
     ../../hm-modules/stash.nix
+    ../../hm-modules/nushell.nix
   ];
   home.username = "luisl";
   home.homeDirectory = "/home/luisl";
   programs.home-manager.enable = true;
   home.stateVersion = "25.05";
+  programs.ghostty.settings.command = "nu";
 }
