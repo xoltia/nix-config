@@ -31,7 +31,11 @@
                   let behind = if ($stats.behind > 0) { "↓" } else { "" }
                   let stashes = if ($stats.stashes > 0) { "$" } else { "" }
                   let status = $"($dirty_idx)($dirty_wt)($stashes)($ahead)($behind)"
-                  $" (ansi blue_bold)($branch)[($status)](ansi reset)"
+                  if (($status | str length) > 0) {
+                    $" (ansi blue_bold)($branch)[($status)](ansi reset)"
+                  } else {
+                    $" (ansi blue_bold)($branch)(ansi reset)"                    
+                  }
               } else { "" }
           }
 
