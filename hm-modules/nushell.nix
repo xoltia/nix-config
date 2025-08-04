@@ -41,6 +41,35 @@
 
           $"($path_segment)($git_info)"
       }
+
+      $env.PROMPT_COMMAND_RIGHT = {||
+        let time_segment = ([
+            (ansi reset)
+            (ansi magenta)
+            (date now | format date '%H:%M:%S')
+        ] | str join | str replace --regex --all "([/:])" $"(ansi green)''${1}(ansi magenta)")
+
+        let last_exit_code = if ($env.LAST_EXIT_CODE != 0) {([
+            (ansi rb)
+            ($env.LAST_EXIT_CODE)
+            (char space)
+          ] | str join)
+        } else { "" }
+
+        let cmd_duration = $env.CMD_DURATION_MS | into duration --unit ms
+        let duration_segment = if ($cmd_duration > 3sec) {([
+            (ansi yb)
+            (if ($cmd_duration < 1min) {
+              $cmd_duration | format duration sec
+            } else if ($cmd_duration < 1hr) {
+              $cmd_duration | format duration min
+            } else {
+              $cmd_duration | format duration hr
+            })
+            (char space)
+        ] | str join)} else { "" }
+        ([$last_exit_code, $duration_segment, $time_segment] | str join)
+      }
     '';
   };
 
