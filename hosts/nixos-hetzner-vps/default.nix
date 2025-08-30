@@ -23,6 +23,7 @@
     pkgs.curl
     pkgs.gitMinimal
     pkgs.helix
+    pkgs.tmux
   ];
 
   networking.hostName = "nixos-hetzner-vps";
@@ -111,7 +112,7 @@
     bindAddr = "127.0.0.1:5300";
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 25565 ];
 
   services.nginx = {
     enable = true;
