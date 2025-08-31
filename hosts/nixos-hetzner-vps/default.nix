@@ -165,7 +165,8 @@
     defaults.email = "llamas.jnl@gmail.com";
   };
 
-  sops.secrets."curseforge_api_key".mode = "0440";
+  # TODO: not good, find out why no working
+  sops.secrets."curseforge_api_key".mode = "0444";
 
   systemd.tmpfiles.rules = [
     "d /var/lib/minecraft-server/atm10 0755 root root -"
