@@ -165,5 +165,30 @@
     defaults.email = "llamas.jnl@gmail.com";
   };
 
+  sops.secrets."curseforge_api_key".mode = "0440";
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/minecraft-server/atm10 0755 root root -"
+  ];
+
+  virtualisation.docker.enable = true;
+
+  virtualisation.oci-containers.containers.atm10-mc-server = {
+    image = "itzg/minecraft-server";
+    ports = [ "0.0.0.0:25565:25565" ];
+    environment = {
+      EULA = "TRUE";
+      CF_API_KEY_FILE = "/run/secrets/cf_api_key";
+      CF_SLUG = "all-the-mods-10";
+      TYPE = "AUTO_CURSEFORGE";
+      INIT_MEMORY="2G";
+      MAX_MEMORY="7G";
+    };
+    volumes = [
+      "/var/lib/minecraft-server/atm10:/data"
+      (config.sops.secrets.curseforge_api_key.path + ":/run/secrets/cf_api_key")
+    ];
+  };
+
   system.stateVersion = "24.05";
 }
