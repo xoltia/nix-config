@@ -93,7 +93,7 @@
 
   services.botsu = {
     enable = true;
-    enableOshiStats = true;
+    enableOshiStats = false;
     tokenFile = config.sops.secrets."botsu/discord_token".path;
     youtubeKeyFile = config.sops.secrets."botsu/youtube_api_key".path;
     oshiStatsAddr = "127.0.0.1:5301";
