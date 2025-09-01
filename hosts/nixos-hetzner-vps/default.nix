@@ -183,7 +183,8 @@
       CF_SLUG = "all-the-mods-10";
       TYPE = "AUTO_CURSEFORGE";
       INIT_MEMORY="2G";
-      MAX_MEMORY="7G";
+      MAX_MEMORY="14G";
+      OPS = "62d51e49-4a49-46eb-884d-4fd60200283b";
     };
     volumes = [
       "/var/lib/minecraft-server/atm10:/data"
