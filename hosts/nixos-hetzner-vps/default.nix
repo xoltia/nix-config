@@ -10,6 +10,7 @@
     ../../modules/botsu.nix
     ../../modules/imgproxy.nix
     ../../modules/postgresql-backup-archive.nix
+    ../../modules/docker-minecraft-server.nix
   ];
 
   boot.loader.grub = {
@@ -69,7 +70,7 @@
   sops.secrets.botsu-imgproxy-key.key = "imgproxy/key";
   sops.secrets.botsu-imgproxy-salt.key = "imgproxy/salt";
 
-  # rclone config files, currently used for postgres archival
+  # currently used for postgres archival and minecraft server backups
   sops.secrets."rclone/mega-s4-amsterdam" = { };
 
   services.postgresql = {
@@ -163,33 +164,6 @@
   security.acme = {
     acceptTerms = true;
     defaults.email = "llamas.jnl@gmail.com";
-  };
-
-  # TODO: not good, find out why no working
-  sops.secrets."curseforge_api_key".mode = "0444";
-
-  systemd.tmpfiles.rules = [
-    "d /var/lib/minecraft-server/atm10 0755 root root -"
-  ];
-
-  virtualisation.docker.enable = true;
-
-  virtualisation.oci-containers.containers.atm10-mc-server = {
-    image = "itzg/minecraft-server";
-    ports = [ "0.0.0.0:25565:25565" ];
-    environment = {
-      EULA = "TRUE";
-      CF_API_KEY_FILE = "/run/secrets/cf_api_key";
-      CF_SLUG = "all-the-mods-10";
-      TYPE = "AUTO_CURSEFORGE";
-      INIT_MEMORY="2G";
-      MAX_MEMORY="14G";
-      OPS = "62d51e49-4a49-46eb-884d-4fd60200283b";
-    };
-    volumes = [
-      "/var/lib/minecraft-server/atm10:/data"
-      (config.sops.secrets.curseforge_api_key.path + ":/run/secrets/cf_api_key")
-    ];
   };
 
   system.stateVersion = "24.05";
