@@ -37,7 +37,8 @@
     home = "/home/luisl";
     extraGroups  = [ "wheel" "networkmanager" ];
     openssh.authorizedKeys.keys = [    
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo luisl@nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo luisl@nixos-desktop"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEzk3lPhMjqFh23XReBtVy5lIdXj6js8NSLYvpLIkPIe nixos@nixos-wsl"
     ];
     shell = pkgs.zsh;
   };
