@@ -45,6 +45,7 @@
       EULA = "TRUE";
       CF_API_KEY_FILE = "/run/secrets/cf_api_key";
       CF_SLUG = "all-the-mods-10";
+      CF_EXCLUDE_MODS = "colorwheel,colorwheel-patcher";
       TYPE = "AUTO_CURSEFORGE";
       INIT_MEMORY="2G";
       MAX_MEMORY="14G";
