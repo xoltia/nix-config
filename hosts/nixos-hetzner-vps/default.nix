@@ -10,7 +10,7 @@
     ../../modules/botsu.nix
     ../../modules/imgproxy.nix
     ../../modules/postgresql-backup-archive.nix
-    ../../modules/docker-minecraft-server.nix
+    # ../../modules/docker-minecraft-server.nix
   ];
 
   boot.loader.grub = {
