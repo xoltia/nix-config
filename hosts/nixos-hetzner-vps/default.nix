@@ -73,6 +73,7 @@
 
   # currently used for postgres archival and minecraft server backups
   sops.secrets."rclone/mega-s4-amsterdam" = { };
+  sops.secrets."rclone/hetzner-storagebox" = { };
 
   services.postgresql = {
     enable = true;
@@ -88,8 +89,10 @@
   };
 
   services.postgresqlBackupArchive = {
-    rcloneConfigFile = config.sops.secrets."rclone/mega-s4-amsterdam".path;
-    rcloneRemote = "mega-s4:pgarchive";
+    # rcloneConfigFile = config.sops.secrets."rclone/mega-s4-amsterdam".path;
+    # rcloneRemote = "mega-s4:pgarchive";
+    rcloneConfigFile = config.sops.secrets."rclone/hetzner-storagebox".path;
+    rcloneRemote = "hetzner-storagebox:pgarchive";
     databases = [ "botsu" ];
   };
 
