@@ -170,5 +170,12 @@
     defaults.email = "llamas.jnl@gmail.com";
   };
 
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+  };
+
+  networking.firewall.checkReversePath = "loose";
+
   system.stateVersion = "24.05";
 }
