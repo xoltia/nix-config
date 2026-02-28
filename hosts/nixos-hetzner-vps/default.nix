@@ -11,6 +11,7 @@
     ../../modules/imgproxy.nix
     ../../modules/postgresql-backup-archive.nix
     # ../../modules/docker-minecraft-server.nix
+    ../../modules/gokapi.nix
   ];
 
   boot.loader.grub = {
@@ -139,6 +140,12 @@
       forceSSL = true;
       enableACME = true;
       locations."/".proxyPass = "http://127.0.0.1:5301";
+    };
+    
+    virtualHosts."gokapi.jllamas.dev" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/".proxyPass = "http://127.0.0.1:53842";
     };
 
     virtualHosts."imgproxy.jllamas.dev" = {
