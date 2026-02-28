@@ -71,9 +71,9 @@
   sops.secrets.botsu-imgproxy-key.key = "imgproxy/key";
   sops.secrets.botsu-imgproxy-salt.key = "imgproxy/salt";
 
-  # currently used for postgres archival and minecraft server backups
-  sops.secrets."rclone/mega-s4-amsterdam" = { };
-  sops.secrets."rclone/hetzner-storagebox" = { };
+  # sops.secrets."rclone/mega-s4-amsterdam" = { };
+  # sops.secrets."rclone/hetzner-storagebox" = { };
+  sops.secrets."rclone/backblaze-b2-pgbackup" = { };
 
   services.postgresql = {
     enable = true;
@@ -89,10 +89,8 @@
   };
 
   services.postgresqlBackupArchive = {
-    # rcloneConfigFile = config.sops.secrets."rclone/mega-s4-amsterdam".path;
-    # rcloneRemote = "mega-s4:pgarchive";
-    rcloneConfigFile = config.sops.secrets."rclone/hetzner-storagebox".path;
-    rcloneRemote = "hetzner-storagebox:pgarchive";
+    rcloneConfigFile = config.sops.secrets."rclone/backblaze-b2-pgbackup".path;
+    rcloneRemote = "b2:jllamas-pgbackup-hetzner-vps";
     databases = [ "botsu" ];
   };
 
