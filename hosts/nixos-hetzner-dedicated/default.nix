@@ -188,14 +188,70 @@ in {
         client_max_body_size 100M;
       '';
     };
+    
+    virtualHosts."*.s3.jllamas.dev" = {
+      useACMEHost = "wildcard-s3.jllamas.dev";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3900";
+        extraConfig = ''
+          proxy_max_temp_file_size 0;
+          client_max_body_size 0;
+        '';
+      };
+    };
+
+    virtualHosts."s3.jllamas.dev" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3900";
+        extraConfig = ''
+          proxy_max_temp_file_size 0;
+          client_max_body_size 0;
+        '';
+      };
+    };
   };
+
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
+
+  sops.secrets."garage_env" = { };
+  sops.secrets."acme_cloudflare_env" = { };
 
   security.acme = {
     acceptTerms = true;
     defaults.email = "llamas.jnl@gmail.com";
+    certs."wildcard-s3.jllamas.dev" = {
+      dnsProvider = "cloudflare";
+      domain = "*.s3.jllamas.dev";
+      environmentFile = config.sops.secrets."acme_cloudflare_env".path;
+      group = config.services.nginx.group;
+    };
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  services.garage = {
+    enable = true;
+    package = pkgs.garage_2;
+    environmentFile = config.sops.secrets."garage_env".path;
+    settings = {
+      replication_factor = 1;
+      s3_api = {
+        s3_region = "eu-central-1";
+        api_bind_addr = "[::]:3900";
+        root_domain = ".s3.jllamas.dev";
+      };
+      admin = {
+        api_bind_addr = "[::]:3903";
+      };
+      rpc_bind_addr = "[::]:3901";
+      # rpc_secret_file = config.sops.secrets."garage/rpc_secret".path;
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
