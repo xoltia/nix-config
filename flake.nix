@@ -41,6 +41,15 @@
           inputs.home-manager.nixosModules.default
         ];
       };
+      
+      nixosConfigurations.nixos-hetzner-dedicated = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/nixos-hetzner-dedicated
+          inputs.sops-nix.nixosModules.default
+          inputs.home-manager.nixosModules.default
+        ];
+      };
 
       nixosConfigurations.nixos-hetzner-vps = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
