@@ -3,6 +3,7 @@
 This is the repository for my NixOS configuration. I currently use it to configure three different hosts:
 - `nixos-desktop`: Primary Desktop
 - `nixos-hetzner-vps`: Hetzner ARM VPS
+- `nixos-hetzner-dedicated`: Hetzner auction server for storage and high workload applications
 - `nixos-wsl`: NixOS through WSL2
 
 The general structure is as follows:
