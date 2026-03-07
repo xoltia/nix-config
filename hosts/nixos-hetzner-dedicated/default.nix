@@ -170,11 +170,13 @@ in {
 
     virtualHosts."jllamas.dev" = {
       addSSL = true;
+      enableACME = true;
       locations."/".proxyPass = "http://nixos-hetzner-vps";
     };
 
     virtualHosts."www.jllamas.dev" = {
       addSSL = true;
+      enableACME = true;
       locations."/".proxyPass = "http://nixos-hetzner-vps";
     };
     
@@ -192,6 +194,8 @@ in {
     acceptTerms = true;
     defaults.email = "llamas.jnl@gmail.com";
   };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
