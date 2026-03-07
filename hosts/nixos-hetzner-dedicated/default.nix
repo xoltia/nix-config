@@ -149,6 +149,11 @@ in {
       "luisl" = import ./home.nix;
     };
   };
+  
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
