@@ -125,51 +125,18 @@
     recommendedProxySettings = true;
 
     virtualHosts."jllamas.dev" = {
-      addSSL = true;
-      enableACME = true;
       globalRedirect = "xoltia.github.io";
     };
 
     virtualHosts."www.jllamas.dev" = {
-      addSSL = true;
-      enableACME = true;
-      globalRedirect = "jllamas.dev";
-    };
-
-    virtualHosts."oshistats.jllamas.dev" = {
-      forceSSL = true;
-      enableACME = true;
-      locations."/".proxyPass = "http://127.0.0.1:5301";
+      globalRedirect = "xoltia.github.io";
     };
     
     virtualHosts."gokapi.jllamas.dev" = {
-      forceSSL = true;
-      enableACME = true;
       locations."/".proxyPass = "http://127.0.0.1:53842";
       extraConfig = ''
         client_max_body_size 100M;
       '';
-    };
-
-    virtualHosts."imgproxy.jllamas.dev" = {
-      addSSL = true;
-      enableACME = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:5300";
-        extraConfig = ''
-          add_header Access-Control-Allow-Origin *;
-          proxy_cache imgproxy_cache;
-          proxy_cache_valid 200 7d;
-          proxy_cache_valid 404 1m;
-        '';
-      };
-    };
-
-    proxyCachePath.imgproxy-cache = {
-      enable = true;
-      keysZoneName = "imgproxy_cache";
-      inactive = "1d";
-      maxSize = "1g";
     };
   };
 

@@ -156,6 +156,43 @@ in {
     useRoutingFeatures = "server";
   };
 
+  services.nginx = {
+    enable = true;
+    recommendedBrotliSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    commonHttpConfig = ''
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    '';
+
+    virtualHosts."jllamas.dev" = {
+      addSSL = true;
+      locations."/".proxyPass = "http://nixos-hetzner-vps";
+    };
+
+    virtualHosts."www.jllamas.dev" = {
+      addSSL = true;
+      locations."/".proxyPass = "http://nixos-hetzner-vps";
+    };
+    
+    virtualHosts."gokapi.jllamas.dev" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/".proxyPass = "http://nixos-hetzner-vps:53842";
+      extraConfig = ''
+        client_max_body_size 100M;
+      '';
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "llamas.jnl@gmail.com";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
