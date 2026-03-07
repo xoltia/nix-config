@@ -34,6 +34,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../modules/crafty.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
