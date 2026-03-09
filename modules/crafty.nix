@@ -12,6 +12,7 @@ in
     autoSubUidGidRange = true;
     group = "crafty";
     home = dataDir;
+    linger = true;
   };
 
   users.groups.crafty = {};

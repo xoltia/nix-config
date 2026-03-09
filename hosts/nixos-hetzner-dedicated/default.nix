@@ -121,7 +121,7 @@ in {
 
   # Initial empty root password for easy login:
   users.users.root.initialHashedPassword = "";
-  services.openssh.permitRootLogin = "prohibit-password";
+  services.openssh.settings.PermitRootLogin = "prohibit-password";
 
   # SSH
   users.users.root.openssh.authorizedKeys.keys = [ publicKey ];
@@ -192,10 +192,17 @@ in {
     virtualHosts."immich.jllamas.dev" = {
       forceSSL = true;
       enableACME = true;
-      locations."/".proxyPass = "http://127.0.0.1:2283";
-      extraConfig = ''
-        client_max_body_size 0;
-      '';
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:2283";
+        proxyWebsockets = true;
+        recommendedProxySettings = true;
+        extraConfig = ''
+          client_max_body_size 50000M;
+          proxy_read_timeout   600s;
+          proxy_send_timeout   600s;
+          send_timeout         600s;
+        '';
+      };
     };
     
     virtualHosts."*.s3.jllamas.dev" = {
@@ -251,6 +258,10 @@ in {
     enable = true;
     port = 2283;
     host = "0.0.0.0";
+    database = {
+      enableVectorChord = true;
+      enableVectors = true;
+    };
   };
 
   services.garage = {

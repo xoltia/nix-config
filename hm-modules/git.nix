@@ -3,13 +3,17 @@
 {
   programs.git = {
     enable = true;
-    userName  = "Juan Llamas";
-    userEmail = "38849891+xoltia@users.noreply.github.com";
-    extraConfig.init.defaultBranch = "main";
-    delta.enable = true;
-    delta.options = {
-      syntax-theme = "ansi";
+    settings = {
+      user.name = "Juan Llamas";
+      user.email = "38849891+xoltia@users.noreply.github.com";
+      init.defaultBranch = "main";
     };
+  };
+
+  programs.delta = {
+    enable = true;
+    options.syntax-theme = "ansi";
+    enableGitIntegration = true;
   };
 
   programs.lazygit = {
