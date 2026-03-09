@@ -188,6 +188,15 @@ in {
         client_max_body_size 100M;
       '';
     };
+
+    virtualHosts."immich.jllamas.dev" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/".proxyPass = "http://127.0.0.1:2283";
+      extraConfig = ''
+        client_max_body_size 0;
+      '';
+    };
     
     virtualHosts."*.s3.jllamas.dev" = {
       useACMEHost = "wildcard-s3.jllamas.dev";
@@ -233,6 +242,16 @@ in {
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  services.postgresql = {
+    package = pkgs.postgresql_16;
+  };
+
+  services.immich = {
+    enable = true;
+    port = 2283;
+    host = "0.0.0.0";
+  };
 
   services.garage = {
     enable = true;
