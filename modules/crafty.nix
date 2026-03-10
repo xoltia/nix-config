@@ -19,12 +19,12 @@ in
 
   # Ensure directories exist
   systemd.tmpfiles.rules = [
-    "d ${dataDir} 0755 crafty crafty -"
-    "d ${dataDir}/backups 0755 crafty crafty -"
-    "d ${dataDir}/logs 0755 crafty crafty -"
-    "d ${dataDir}/servers 0755 crafty crafty -"
-    "d ${dataDir}/config 0755 crafty crafty -"
-    "d ${dataDir}/import 0755 crafty crafty -"
+    "d ${dataDir} 0770 crafty crafty -"
+    "d ${dataDir}/backups 0770 crafty crafty -"
+    "d ${dataDir}/logs 0770 crafty crafty -"
+    "d ${dataDir}/servers 0770 crafty crafty -"
+    "d ${dataDir}/config 0770 crafty crafty -"
+    "d ${dataDir}/import 0770 crafty crafty -"
   ];
 
   virtualisation.oci-containers.containers.crafty = {
@@ -53,6 +53,8 @@ in
     podman = {
       user = "crafty";
     };
+
+    # extraOptions = [ "--userns=keep-id" ];
   };
 
   networking.firewall = {
