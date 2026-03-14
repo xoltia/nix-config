@@ -249,8 +249,6 @@ in {
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-
   services.postgresql = {
     package = pkgs.postgresql_16;
   };
@@ -293,8 +291,11 @@ in {
       cfModpackSlug = "rlcraft";
       cfApiKeyFile = config.sops.secrets.curseforge_api_key.path;
       ops = [ "62d51e49-4a49-46eb-884d-4fd60200283b" ];
+      port = 25565;
     };
   };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 25565 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
