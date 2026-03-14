@@ -210,6 +210,7 @@ in
                 fi
             '';
         in
+        # TODO: make this a single service that makes all networks and removes unused ones.
         (mapAttrs'
           (name: { port, ... }: nameValuePair (podName name) {
             description = "Ensures Podman pod for docker-minecraft-server instance '${name}' exists";
