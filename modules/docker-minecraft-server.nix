@@ -1,86 +1,240 @@
-# TODO: Make this module configurable with options?
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
+
+with lib;
+let
+    cfg = config.services.dockerMinecraftServer;
+in
 {
-  sops.secrets."curseforge_api_key".mode = "0400";
-  sops.secrets."curseforge_api_key".owner = "luisl";
-
-  systemd.tmpfiles.rules = [
-    "d /home/luisl/mnt/mcbackups 0770 luisl - -"
-    "d /home/luisl/minecraft-server/atm10 0770 luisl - -"
-  ];
-
-  virtualisation.oci-containers.containers.atm10-mc-server =
-  let
-    simplebackupsCfg = pkgs.writeTextFile {
-      name = "atm10-mc-server-simplebackups-config";
-      text =
-      # toml
-      ''
-        enabled = true
-        backupType = "FULL_BACKUPS"
-        saveAll = true
-        fullBackupTimer = 525960
-        backupsToKeep = 20
-        timer = 240
-        compressionLevel = -1
-        sendMessages = true
-        maxDiskSize = "100 GB"
-        outputPath = "/backups"
-        noPlayerBackups = false
-        createSubDirs = true
-        useTickCounter = false
-        [to_ignore]
-        ignored_paths = []
-        ignored_files = []
-        ignored_files_regex = ""
-        [mod_compat]
-        mc2discord = true
-      '';
+  options.services.dockerMinecraftServer = {
+    eula = mkOption {
+      type = types.bool;
+      default = false;
     };
-  in
-  {
-    image = "itzg/minecraft-server";
-    ports = [ "0.0.0.0:25565:25565" ];
-    environment = {
-      EULA = "TRUE";
-      CF_API_KEY_FILE = "/run/secrets/cf_api_key";
-      CF_SLUG = "all-the-mods-10";
-      CF_EXCLUDE_MODS = "colorwheel,colorwheel-patcher";
-      TYPE = "AUTO_CURSEFORGE";
-      INIT_MEMORY="2G";
-      MAX_MEMORY="14G";
-      OPS = "62d51e49-4a49-46eb-884d-4fd60200283b";
-      SYNC_SKIP_NEWER_IN_DESTINATION = "false";
+
+    baseDir = mkOption {
+      type = types.path;
+      default = "/var/lib/docker-minecraft-server";
     };
-    volumes = [
-      "/home/luisl/minecraft-server/atm10:/data"
-      "/home/luisl/mnt/mcbackups:/backups"
-      "${simplebackupsCfg}:/config/simplebackups-common.toml"
-      (config.sops.secrets.curseforge_api_key.path + ":/run/secrets/cf_api_key")
-    ];
+
+    instances = mkOption {
+      default = {};
+      type = types.attrsOf (types.submodule ({ name, ... }: {
+        options = {
+          enable = mkOption {
+            type = types.bool;
+            default = true;
+          };
+
+          imageTag = mkOption {
+            type = types.str;
+            default = "latest";
+          };
+
+          port = mkOption {
+            type = types.port;
+            default = 25565;
+          };
+
+          cfModpackSlug = mkOption {
+            type = types.str;
+            default = "";
+            example = "all-the-mods-10";
+          };
+
+          cfApiKeyFile = mkOption {
+            type = types.nullOr types.path;
+            default = null;
+          };
+
+          memoryMin = mkOption {
+            type = types.str;
+            default = "2G";
+          };
+
+          memoryMax = mkOption {
+            type = types.str;
+            default = "8G";
+          };          
+
+          ops = mkOption {
+            type = types.listOf types.str;
+            default = [ ];
+          };
+
+          dataDir = mkOption {
+            type = types.path;
+            default = "${cfg.baseDir}/${name}/data";
+          };
+
+          backupsDir = mkOption {
+            type = types.path;
+            default = "${cfg.baseDir}/${name}/backups";
+          };
+
+          enableBackups = mkOption {
+            type = types.bool;
+            default = true;
+          };
+
+          extraOptions = mkOption {
+            type = types.attrsOf types.str;
+            default = { };
+          };
+
+          extraBackupOptions = mkOption {
+            type = types.attrsOf types.str;
+            default = { };
+          };
+        };
+      }));
+    };
   };
 
-  systemd.services.rclone-mount-mcbackup = {
-    description = "Rclone mount for mcbackup bucket";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    requiredBy = [ (config.virtualisation.oci-containers.containers.atm10-mc-server.serviceName + ".service") ];
-    before = [ (config.virtualisation.oci-containers.containers.atm10-mc-server.serviceName + ".service") ];
-    serviceConfig = {
-      Type = "notify";
-      ExecStart = ''
-        ${pkgs.rclone}/bin/rclone mount \
-          "mega-s4:mcbackup" \
-          /home/luisl/mnt/mcbackups \
-          --config=''${CREDENTIALS_DIRECTORY}/rclone.conf \
-          --uid=1000 \
-          --allow-other \
-          --umask=077
-      '';
-      ExecStop = "${pkgs.fuse}/bin/fusermount -u /home/luisl/mnt/mcbackups";
-      Restart = "on-failure";
-      RestartSec = "10s";
-      LoadCredential = [ ("rclone.conf:" + config.sops.secrets."rclone/mega-s4-amsterdam".path) ];
+  config =
+    let
+      safeNameRegex = "^[a-z][a-z0-9-]*[a-z0-9]$";
+      podName = name: "dockerMinecraftServer-podman-pod-${name}";
+
+      makeServerContainer = name: opts:
+        nameValuePair "mc-${name}" {
+          image = "itzg/minecraft-server:${opts.imageTag}";
+          # ports = [
+          #   "0.0.0.0:${toString opts.port}:25565"
+          # ];
+          podman.user = "mc-${name}";
+
+          environment = {
+            EULA = "TRUE";
+            UID = "0";
+            GID = "0";
+            TYPE = if opts.cfModpackSlug != "" then "AUTO_CURSEFORGE" else "";
+            CF_SLUG = opts.cfModpackSlug;
+            CF_API_KEY_FILE = if opts.cfApiKeyFile != null then "/cf_api_key" else "";
+            INIT_MEMORY = opts.memoryMin;
+            MAX_MEMORY = opts.memoryMax;
+            OPS = strings.concatStringsSep "," opts.ops;
+          } // opts.extraOptions;
+
+          volumes = [
+            "${opts.dataDir}:/data"
+          ] ++ optionals (opts.cfApiKeyFile != null) [
+            "${opts.cfApiKeyFile}:/cf_api_key:ro"
+          ];
+
+          extraOptions = [ "--pod=${podName name}" ];
+        };
+
+      makeBackupContainer = name: opts:
+        nameValuePair "mc-${name}-backup" {
+          image = "itzg/mc-backup";
+          podman.user = "mc-${name}";
+          environment = opts.extraBackupOptions;
+          volumes = [
+            "${opts.dataDir}:/data:ro"
+            "${opts.backupsDir}:/backups"
+          ];
+          extraOptions = [ "--pod=${podName name}" ];
+        };
+
+      serverContainers =         
+        mapAttrs'
+          makeServerContainer
+          (filterAttrs (_: v: v.enable) cfg.instances);
+
+      backupContainers = 
+        mapAttrs'
+          makeBackupContainer
+          (filterAttrs (_: v: v.enable && v.enableBackups) cfg.instances);
+
+      enabledInstances =
+        filterAttrs (_: v: v.enable) cfg.instances;
+    in
+    {
+      assertions = [
+        {
+          assertion = cfg.eula || ((filterAttrs (_: v: v.enable) cfg.instances) == {});
+          message = "Must accept the EULA before enabling instances";
+        }
+      ] ++
+      mapAttrsToList
+        (name: _:
+          {
+            assertion = builtins.match safeNameRegex name != null;
+            message = "Invalid minecraft instance name `${name}`";
+          })
+        cfg.instances;
+
+      users.users =
+        mapAttrs'
+          (name: _:
+            nameValuePair "mc-${name}" {
+              isSystemUser = true;
+              group = "mc-${name}";
+              home = "${cfg.baseDir}/${name}";
+              createHome = true;
+              linger = true;
+              autoSubUidGidRange = true;
+            })
+          enabledInstances;
+
+      users.groups =
+        mapAttrs'
+          (name: _: nameValuePair "mc-${name}" {})
+          enabledInstances;
+
+      systemd.tmpfiles.rules =
+            flatten (mapAttrsToList
+              (name: _:
+                let
+                  root = "${cfg.baseDir}/${name}";
+                in [
+                  "d ${root} 0750 mc-${name} mc-${name} -"
+                  "d ${root}/data 0750 mc-${name} mc-${name} -"
+                  "d ${root}/backups 0750 mc-${name} mc-${name} -"
+                ])
+              enabledInstances);
+
+      virtualisation.oci-containers.containers =
+        serverContainers // backupContainers;
+
+      systemd.services =
+        let
+          ensurePod = name: port:
+            pkgs.writeShellScript "ensure-pod" ''
+              set -euo pipefail
+
+                if ! ${getExe pkgs.podman} pod exists ${podName name}; then
+                  ${getExe pkgs.podman} pod create \
+                    --name ${podName name} \
+                    --publish 0.0.0.0:${toString port}:25565
+                fi
+            '';
+        in
+        (mapAttrs'
+          (name: { port, ... }: nameValuePair (podName name) {
+            description = "Ensures Podman pod for docker-minecraft-server instance '${name}' exists";
+            after = [ "network.target" ];
+            wantedBy = [ "multi-user.target" ];
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
+              User = "mc-${name}";
+              Group = "mc-${name}";
+              ExecStart = (ensurePod name port);
+            };
+          })
+          enabledInstances) //
+        (mapAttrs'
+          (name: _: nameValuePair "podman-${name}" {
+            after = [ "${podName name}.service" ];
+            requires = [ "${podName name}.service" ];
+          })
+          enabledInstances) //        
+        (mapAttrs'
+          (name: _: nameValuePair "podman-${name}-backup" {
+            after = [ "${podName name}.service" ];
+            requires = [ "${podName name}.service" ];
+          })
+          enabledInstances);
     };
-  };
 }

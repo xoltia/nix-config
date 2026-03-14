@@ -34,7 +34,8 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/crafty.nix
+      # ../../modules/crafty.nix
+      ../../modules/docker-minecraft-server.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -280,6 +281,18 @@ in {
       };
       rpc_bind_addr = "[::]:3901";
       # rpc_secret_file = config.sops.secrets."garage/rpc_secret".path;
+    };
+  };
+
+  sops.secrets.curseforge_api_key.owner = "mc-rlcraft";
+
+  services.dockerMinecraftServer = {
+    eula = true;
+    instances."rlcraft" = {
+      imageTag = "java8-multiarch";
+      cfModpackSlug = "rlcraft";
+      cfApiKeyFile = config.sops.secrets.curseforge_api_key.path;
+      ops = [ "62d51e49-4a49-46eb-884d-4fd60200283b" ];
     };
   };
 
