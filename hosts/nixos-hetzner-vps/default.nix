@@ -64,8 +64,8 @@
   sops.secrets."botsu/oshi_stats_oauth_secret".restartUnits = [ "botsu-oshi-stats-server.service" ];
 
   # Secrets for running improxy service
-  sops.secrets."imgproxy/key".owner = config.users.users.imgproxy.name;
-  sops.secrets."imgproxy/salt".owner = config.users.users.imgproxy.name;
+  # sops.secrets."imgproxy/key".owner = config.users.users.imgproxy.name;
+  # sops.secrets."imgproxy/salt".owner = config.users.users.imgproxy.name;
 
   sops.secrets.botsu-imgproxy-key.owner = config.users.users.botsu.name;
   sops.secrets.botsu-imgproxy-salt.owner = config.users.users.botsu.name;
@@ -110,13 +110,11 @@
   };
 
   services.imgproxy = {
-    enable = true;
+    enable = false;
     keyFile = config.sops.secrets."imgproxy/key".path;
     saltFile = config.sops.secrets."imgproxy/salt".path;
     bindAddr = "127.0.0.1:5300";
   };
-
-  networking.firewall.allowedTCPPorts = [ 80 443 25565 ];
 
   services.nginx = {
     enable = true;
@@ -125,14 +123,20 @@
     recommendedProxySettings = true;
 
     virtualHosts."jllamas.dev" = {
+      enableACME = true;
+      addSSL = true;
       globalRedirect = "xoltia.github.io";
     };
 
     virtualHosts."www.jllamas.dev" = {
+      enableACME = true;
+      addSSL = true;
       globalRedirect = "xoltia.github.io";
     };
     
     virtualHosts."gokapi.jllamas.dev" = {
+      enableACME = true;
+      forceSSL = true;
       locations."/".proxyPass = "http://127.0.0.1:53842";
       extraConfig = ''
         client_max_body_size 100M;
@@ -150,7 +154,10 @@
     useRoutingFeatures = "server";
   };
 
-  networking.firewall.checkReversePath = "loose";
+  networking.firewall = {
+    checkReversePath = "loose";
+    allowedTCPPorts = [ 80 443 ];
+  };
 
   system.stateVersion = "24.05";
 }
