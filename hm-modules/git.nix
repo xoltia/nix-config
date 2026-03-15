@@ -19,18 +19,20 @@
   programs.lazygit = {
     enable = true;
     settings = {
-      git.paging = {
-        colorArg = "always";
-        useConfig = false;
-        pager = lib.concatStringsSep " " [
-          "delta"
-          "--dark"
-          "--paging=never"
-          "--line-numbers"
-          "--hyperlinks"
-          "--hyperlinks-file-link-format='lazygit-edit://{path}:{line}'"
-        ];
-      };
+      git.pagers = [
+        {
+          pager = lib.concatStringsSep " " [
+            "delta"
+            "--dark"
+            "--paging=never"
+            "--line-numbers"
+            "--hyperlinks"
+            "--hyperlinks-file-link-format='lazygit-edit://{path}:{line}'"
+          ];
+          colorArg = "always";
+          useConfig = false;
+        }
+      ];
     };
   };
 }
