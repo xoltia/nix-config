@@ -1,5 +1,23 @@
 { pkgs, config, lib, ... }:
 {
+   nixpkgs.overlays = [
+     (final: prev: {
+       gokapi = prev.gokapi.overrideAttrs (old: rec {
+         version = "2.2.4";
+         src = pkgs.fetchFromGitHub {
+           owner = "Forceu";
+           repo = "Gokapi";
+           tag = "v${version}";
+           hash = "sha256-N9rV8/IJy4eMwdXXh+7z3raPcalSFUWP7EwN84tfbk8=";
+         };
+         vendorHash = "sha256-+S92WOEl9UgNLxmeT2LeSlEJzU9HpmQ/FLBXl2jlF2I=";
+         preBuild = ''
+           GO_FLAGS="-mod=mod"
+         '' + old.preBuild;
+       });
+     })
+   ];
+  
   environment.systemPackages = [
     pkgs.gokapi
   ];
