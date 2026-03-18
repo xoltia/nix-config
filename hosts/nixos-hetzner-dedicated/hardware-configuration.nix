@@ -18,6 +18,18 @@
       fsType = "zfs";
     };
 
+  #fileSystems."/boot-1" =
+  #  { device = "/dev/disk/by-uuid/5006-9D42";
+  #    fsType = "vfat";
+  #    options = [ "fmask=0022" "dmask=0022" ];
+  #  };
+
+  #fileSystems."/boot-2" =
+  #  { device = "/dev/disk/by-uuid/5008-8323";
+  #    fsType = "vfat";
+  #    options = [ "fmask=0022" "dmask=0022" ];
+  #  };
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

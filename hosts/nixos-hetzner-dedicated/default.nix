@@ -5,10 +5,10 @@
 let
   # Deployment-specific parameters -- you need to fill these in where the ... are
   hostName = "nixos-hetzner-dedicated";
-  publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAVWJ6hGX4RXu43D1uWJ7Q6dHts0iCI8Qt23m/Tg7h+n";
+  publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDrryFSxYCamdYRQreQiFPJ2pdYIWdhq4ufYpc6mWErE";
   # From `ls -lh /dev/disk/by-id`
-  sda = "ata-ST4000NM0245-1Z2107_ZC1A1HEA";
-  sdb = "ata-ST4000NM0245-1Z2107_ZC1A1H7V";
+  sda = "ata-ST4000NM0245-1Z2107_ZC14YB2D";
+  sdb = "ata-ST4000NM0245-1Z2107_ZC16R0XR";
   # See <https://major.io/2015/08/21/understanding-systemds-predictable-network-device-names/#picking-the-final-name>
   # for a description on how to find out the network card name reliably.
   networkInterface = "enp0s31f6";
@@ -17,19 +17,19 @@ let
   networkInterfaceModule = "e1000e";
   # From the Hetzner control panel
   ipv4 = {
-    address = "94.130.10.52"; # the ip address
-    gateway = "94.130.10.1"; # the gateway ip address
+    address = "95.216.13.236"; # the ip address
+    gateway = "95.216.13.193"; # the gateway ip address
     netmask = "255.255.255.192"; # the netmask -- might not be the same for you!
     prefixLength = 26; # must match the netmask, see <https://www.pawprint.net/designresources/netmask-converter.php>
   };
   ipv6 = {
-    address = "2a01:4f8:10b:e42::"; # the ipv6 addres
+    address = "2a01:4f9:2a:e14::"; # the ipv6 addres
     gateway = "fe80::1"; # the ipv6 gateway
     prefixLength = 64; # shown in the control panel
   };
   # See <https://nixos.wiki/wiki/NixOS_on_ZFS> for why we need the
   # hostId and how to generate it
-  hostId = "83dcec6b";
+  hostId = "a020e02c";
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -170,15 +170,15 @@ in {
     '';
 
     virtualHosts."jllamas.dev" = {
-      addSSL = true;
       enableACME = true;
-      locations."/".proxyPass = "http://nixos-hetzner-vps";
+      addSSL = true;
+      globalRedirect = "xoltia.github.io";
     };
 
     virtualHosts."www.jllamas.dev" = {
-      addSSL = true;
       enableACME = true;
-      locations."/".proxyPass = "http://nixos-hetzner-vps";
+      addSSL = true;
+      globalRedirect = "xoltia.github.io";
     };
     
     virtualHosts."gokapi.jllamas.dev" = {
@@ -190,112 +190,99 @@ in {
       '';
     };
 
-    virtualHosts."immich.jllamas.dev" = {
-      forceSSL = true;
-      enableACME = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:2283";
-        proxyWebsockets = true;
-        recommendedProxySettings = true;
-        extraConfig = ''
-          client_max_body_size 50000M;
-          proxy_read_timeout   600s;
-          proxy_send_timeout   600s;
-          send_timeout         600s;
-        '';
-      };
-    };
+  #   virtualHosts."immich.jllamas.dev" = {
+  #     forceSSL = true;
+  #     enableACME = true;
+  #     locations."/" = {
+  #       proxyPass = "http://127.0.0.1:2283";
+  #       proxyWebsockets = true;
+  #       recommendedProxySettings = true;
+  #       extraConfig = ''
+  #         client_max_body_size 50000M;
+  #         proxy_read_timeout   600s;
+  #         proxy_send_timeout   600s;
+  #         send_timeout         600s;
+  #       '';
+  #     };
+  #   };
     
-    virtualHosts."*.s3.jllamas.dev" = {
-      useACMEHost = "wildcard-s3.jllamas.dev";
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3900";
-        extraConfig = ''
-          proxy_max_temp_file_size 0;
-          client_max_body_size 0;
-        '';
-      };
-    };
+  #   virtualHosts."*.s3.jllamas.dev" = {
+  #     useACMEHost = "wildcard-s3.jllamas.dev";
+  #     forceSSL = true;
+  #     locations."/" = {
+  #       proxyPass = "http://127.0.0.1:3900";
+  #       extraConfig = ''
+  #         proxy_max_temp_file_size 0;
+  #         client_max_body_size 0;
+  #       '';
+  #     };
+  #   };
 
-    virtualHosts."s3.jllamas.dev" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3900";
-        extraConfig = ''
-          proxy_max_temp_file_size 0;
-          client_max_body_size 0;
-        '';
-      };
-    };
+  #   virtualHosts."s3.jllamas.dev" = {
+  #     enableACME = true;
+  #     forceSSL = true;
+  #     locations."/" = {
+  #       proxyPass = "http://127.0.0.1:3900";
+  #       extraConfig = ''
+  #         proxy_max_temp_file_size 0;
+  #         client_max_body_size 0;
+  #       '';
+  #     };
+  #   };
   };
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
+  # sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  # sops.defaultSopsFormat = "yaml";
+  # sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
 
-  sops.secrets."garage_env" = { };
-  sops.secrets."acme_cloudflare_env" = { };
+  # sops.secrets."garage_env" = { };
+  # sops.secrets."acme_cloudflare_env" = { };
 
   security.acme = {
     acceptTerms = true;
     defaults.email = "llamas.jnl@gmail.com";
-    certs."wildcard-s3.jllamas.dev" = {
-      dnsProvider = "cloudflare";
-      domain = "*.s3.jllamas.dev";
-      environmentFile = config.sops.secrets."acme_cloudflare_env".path;
-      group = config.services.nginx.group;
-    };
+    # certs."wildcard-s3.jllamas.dev" = {
+    #   dnsProvider = "cloudflare";
+    #   domain = "*.s3.jllamas.dev";
+    #   environmentFile = config.sops.secrets."acme_cloudflare_env".path;
+    #   group = config.services.nginx.group;
+    # };
   };
 
-  services.postgresql = {
-    package = pkgs.postgresql_16;
-  };
+  # services.postgresql = {
+  #   package = pkgs.postgresql_16;
+  # };
 
-  services.immich = {
-    enable = true;
-    port = 2283;
-    host = "0.0.0.0";
-    database = {
-      enableVectorChord = true;
-      enableVectors = true;
-    };
-  };
+  # services.immich = {
+  #   enable = true;
+  #   port = 2283;
+  #   host = "0.0.0.0";
+  #   database = {
+  #     enableVectorChord = true;
+  #     enableVectors = true;
+  #   };
+  # };
 
-  services.garage = {
-    enable = true;
-    package = pkgs.garage_2;
-    environmentFile = config.sops.secrets."garage_env".path;
-    settings = {
-      replication_factor = 1;
-      s3_api = {
-        s3_region = "eu-central-1";
-        api_bind_addr = "[::]:3900";
-        root_domain = ".s3.jllamas.dev";
-      };
-      admin = {
-        api_bind_addr = "[::]:3903";
-      };
-      rpc_bind_addr = "[::]:3901";
-      # rpc_secret_file = config.sops.secrets."garage/rpc_secret".path;
-    };
-  };
+  # services.garage = {
+  #   enable = true;
+  #   package = pkgs.garage_2;
+  #   environmentFile = config.sops.secrets."garage_env".path;
+  #   settings = {
+  #     replication_factor = 1;
+  #     s3_api = {
+  #       s3_region = "eu-central-1";
+  #       api_bind_addr = "[::]:3900";
+  #       root_domain = ".s3.jllamas.dev";
+  #     };
+  #     admin = {
+  #       api_bind_addr = "[::]:3903";
+  #     };
+  #     rpc_bind_addr = "[::]:3901";
+  #     # rpc_secret_file = config.sops.secrets."garage/rpc_secret".path;
+  #   };
+  # };
 
-  sops.secrets.curseforge_api_key.owner = "mc-rlcraft";
-
-  services.dockerMinecraftServer = {
-    eula = true;
-    instances."rlcraft" = {
-      imageTag = "java8-multiarch";
-      cfModpackSlug = "rlcraft";
-      cfApiKeyFile = config.sops.secrets.curseforge_api_key.path;
-      ops = [ "62d51e49-4a49-46eb-884d-4fd60200283b" ];
-      port = 25565;
-    };
-  };
-
-  networking.firewall.allowedTCPPorts = [ 80 443 25565 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
