@@ -34,8 +34,8 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # ../../modules/crafty.nix
-      ../../modules/docker-minecraft-server.nix
+      ../../modules/crafty.nix
+      # ../../modules/docker-minecraft-server.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
