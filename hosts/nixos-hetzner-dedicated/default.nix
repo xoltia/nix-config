@@ -138,9 +138,8 @@ in {
     home = "/home/luisl";
     extraGroups  = [ "wheel" "networkmanager" ];
     openssh.authorizedKeys.keys = [    
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4lxvIxjiF2WwXKeayBDjzLNBsB3mQ2hOS5d519ysbo luisl@nixos-desktop"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVzRgt7toWfPAEAFFN4a4XK8L0IXraTx4C2u3J9f3yO luisl@nixos-hetzner-vps"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEzk3lPhMjqFh23XReBtVy5lIdXj6js8NSLYvpLIkPIe nixos@nixos-wsl"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINmGpQOWf+QALQmDHy9ORasGR5AB15FMD2DcKd29EZvc luisl@win"
     ];
     shell = pkgs.zsh;
   };
@@ -189,98 +188,58 @@ in {
         client_max_body_size 100M;
       '';
     };
-
-  #   virtualHosts."immich.jllamas.dev" = {
-  #     forceSSL = true;
-  #     enableACME = true;
-  #     locations."/" = {
-  #       proxyPass = "http://127.0.0.1:2283";
-  #       proxyWebsockets = true;
-  #       recommendedProxySettings = true;
-  #       extraConfig = ''
-  #         client_max_body_size 50000M;
-  #         proxy_read_timeout   600s;
-  #         proxy_send_timeout   600s;
-  #         send_timeout         600s;
-  #       '';
-  #     };
-  #   };
-    
-  #   virtualHosts."*.s3.jllamas.dev" = {
-  #     useACMEHost = "wildcard-s3.jllamas.dev";
-  #     forceSSL = true;
-  #     locations."/" = {
-  #       proxyPass = "http://127.0.0.1:3900";
-  #       extraConfig = ''
-  #         proxy_max_temp_file_size 0;
-  #         client_max_body_size 0;
-  #       '';
-  #     };
-  #   };
-
-  #   virtualHosts."s3.jllamas.dev" = {
-  #     enableACME = true;
-  #     forceSSL = true;
-  #     locations."/" = {
-  #       proxyPass = "http://127.0.0.1:3900";
-  #       extraConfig = ''
-  #         proxy_max_temp_file_size 0;
-  #         client_max_body_size 0;
-  #       '';
-  #     };
-  #   };
   };
 
-  # sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  # sops.defaultSopsFormat = "yaml";
-  # sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
 
-  # sops.secrets."garage_env" = { };
-  # sops.secrets."acme_cloudflare_env" = { };
+  sops.secrets."copyparty/luisl_password".owner = "copyparty";
+
+  nixpkgs.overlays = [ inputs.copyparty.overlays.default ];
+
+  services.copyparty = {
+    enable = true;
+    package = pkgs.copyparty-full;
+    user = "copyparty"; 
+    group = "copyparty"; 
+    settings = {
+      i = "0.0.0.0";
+      sftp = "3922";
+    };
+
+    globalExtraConfig = ''
+      sftp-key: luisl ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINmGpQOWf+QALQmDHy9ORasGR5AB15FMD2DcKd29EZvc
+      sftp-key: luisl ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVzRgt7toWfPAEAFFN4a4XK8L0IXraTx4C2u3J9f3yO
+    '';
+
+    accounts = {
+      luisl = {
+        passwordFile = config.sops.secrets."copyparty/luisl_password".path;
+      };
+    };
+
+    volumes = {
+      "/" = {
+        path = "/srv/copyparty";
+        access = {
+          A = [ "luisl" ];
+        };
+        flags = {
+          fk = 4;
+          scan = 60;
+          e2d = true;
+          d2t = true;
+        };
+      };
+    };
+    openFilesLimit = 8192;
+  };
 
   security.acme = {
     acceptTerms = true;
     defaults.email = "llamas.jnl@gmail.com";
-    # certs."wildcard-s3.jllamas.dev" = {
-    #   dnsProvider = "cloudflare";
-    #   domain = "*.s3.jllamas.dev";
-    #   environmentFile = config.sops.secrets."acme_cloudflare_env".path;
-    #   group = config.services.nginx.group;
-    # };
   };
-
-  # services.postgresql = {
-  #   package = pkgs.postgresql_16;
-  # };
-
-  # services.immich = {
-  #   enable = true;
-  #   port = 2283;
-  #   host = "0.0.0.0";
-  #   database = {
-  #     enableVectorChord = true;
-  #     enableVectors = true;
-  #   };
-  # };
-
-  # services.garage = {
-  #   enable = true;
-  #   package = pkgs.garage_2;
-  #   environmentFile = config.sops.secrets."garage_env".path;
-  #   settings = {
-  #     replication_factor = 1;
-  #     s3_api = {
-  #       s3_region = "eu-central-1";
-  #       api_bind_addr = "[::]:3900";
-  #       root_domain = ".s3.jllamas.dev";
-  #     };
-  #     admin = {
-  #       api_bind_addr = "[::]:3903";
-  #     };
-  #     rpc_bind_addr = "[::]:3901";
-  #     # rpc_secret_file = config.sops.secrets."garage/rpc_secret".path;
-  #   };
-  # };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 

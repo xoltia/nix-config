@@ -31,6 +31,7 @@
     };
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    copyparty.url = "github:9001/copyparty";
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
@@ -48,6 +49,7 @@
           ./hosts/nixos-hetzner-dedicated
           inputs.sops-nix.nixosModules.default
           inputs.home-manager.nixosModules.default
+          inputs.copyparty.nixosModules.default
         ];
       };
 
