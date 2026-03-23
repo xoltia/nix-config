@@ -105,9 +105,11 @@
     };
   };
 
-  users.users."luisl".openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuHkhyxPAtN+Ug4b2HPUDjMyPcKCyQuQUmJdyH4g9ta luisl@fedora"
-  ];
+  users.users."luisl".openssh.authorizedKeys.keys =
+    let
+      sshKeys = import ../../modules/ssh-keys.nix { inherit lib; };
+    in
+    [ sshKeys."luisl@fedora".raw ];
 
   programs.nh = {
     enable = true;

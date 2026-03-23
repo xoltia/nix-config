@@ -3,9 +3,10 @@
 
 { config, pkgs, lib, inputs, ... }:
 let
+  sshKeys = import ../../modules/ssh-keys.nix { inherit lib; };
   # Deployment-specific parameters -- you need to fill these in where the ... are
   hostName = "nixos-hetzner-dedicated";
-  publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDrryFSxYCamdYRQreQiFPJ2pdYIWdhq4ufYpc6mWErE";
+  publicKey = sshKeys."luisl@win:initrd".noComment;
   # From `ls -lh /dev/disk/by-id`
   sda = "ata-ST4000NM0245-1Z2107_ZC14YB2D";
   sdb = "ata-ST4000NM0245-1Z2107_ZC16R0XR";
@@ -138,8 +139,8 @@ in {
     home = "/home/luisl";
     extraGroups  = [ "wheel" "networkmanager" ];
     openssh.authorizedKeys.keys = [    
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVzRgt7toWfPAEAFFN4a4XK8L0IXraTx4C2u3J9f3yO luisl@nixos-hetzner-vps"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINmGpQOWf+QALQmDHy9ORasGR5AB15FMD2DcKd29EZvc luisl@win"
+      (sshKeys."luisl@nixos-hetzner-vps".raw)
+      (sshKeys."luisl@win".raw)
     ];
     shell = pkgs.zsh;
   };
@@ -209,8 +210,7 @@ in {
     };
 
     globalExtraConfig = ''
-      sftp-key: luisl ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINmGpQOWf+QALQmDHy9ORasGR5AB15FMD2DcKd29EZvc
-      sftp-key: luisl ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVzRgt7toWfPAEAFFN4a4XK8L0IXraTx4C2u3J9f3yO
+      sftp-key: luisl ${sshKeys."luisl@win".noComment}
     '';
 
     accounts = {
