@@ -157,6 +157,11 @@ in {
     useRoutingFeatures = "server";
   };
 
+  # Temporary workaround, should IPv6 DNS be fixed in later release
+  systemd.services.tailscaled.serviceConfig.Environment = [
+    "TS_DEBUG_MAGIC_DNS_DUAL_STACK=true"
+  ];
+
   services.nginx = {
     enable = true;
     recommendedBrotliSettings = true;
