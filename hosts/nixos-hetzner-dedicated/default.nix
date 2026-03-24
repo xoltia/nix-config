@@ -139,8 +139,8 @@ in {
     home = "/home/luisl";
     extraGroups  = [ "wheel" "networkmanager" ];
     openssh.authorizedKeys.keys = [    
-      (sshKeys."luisl@nixos-hetzner-vps".raw)
-      (sshKeys."luisl@win".raw)
+      sshKeys."luisl@win".raw
+      sshKeys."luisl@nixos-desktop".raw
     ];
     shell = pkgs.zsh;
   };
@@ -216,6 +216,7 @@ in {
 
     globalExtraConfig = ''
       sftp-key: luisl ${sshKeys."luisl@win".noComment}
+      sftp-key: luisl ${sshKeys."luisl@nixos-desktop".noComment}
     '';
 
     accounts = {

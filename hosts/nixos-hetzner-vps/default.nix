@@ -39,7 +39,10 @@
       let
         sshKeys = import ../../modules/ssh-keys.nix { inherit lib; };
       in
-        [ sshKeys."luisl@win".raw ];
+        [
+          sshKeys."luisl@win".raw
+          sshKeys."luisl@nixos-desktop".raw
+        ];
     shell = pkgs.zsh;
   };
   
