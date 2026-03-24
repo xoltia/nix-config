@@ -10,8 +10,6 @@
     ../../modules/botsu.nix
     ../../modules/imgproxy.nix
     ../../modules/postgresql-backup-archive.nix
-    # ../../modules/docker-minecraft-server.nix
-    ../../modules/gokapi.nix
   ];
 
   boot.loader.grub = {
@@ -133,16 +131,7 @@
       enableACME = true;
       addSSL = true;
       globalRedirect = "xoltia.github.io";
-    };
-    
-    virtualHosts."gokapi.jllamas.dev" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/".proxyPass = "http://127.0.0.1:53842";
-      extraConfig = ''
-        client_max_body_size 100M;
-      '';
-    };
+    };    
   };
 
   security.acme = {

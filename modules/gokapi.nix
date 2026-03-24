@@ -11,9 +11,6 @@
            hash = "sha256-N9rV8/IJy4eMwdXXh+7z3raPcalSFUWP7EwN84tfbk8=";
          };
          vendorHash = "sha256-+S92WOEl9UgNLxmeT2LeSlEJzU9HpmQ/FLBXl2jlF2I=";
-         preBuild = ''
-           GO_FLAGS="-mod=mod"
-         '' + old.preBuild;
        });
      })
    ];
@@ -23,7 +20,7 @@
   ];
   
   # sops.secrets."gokapi/env" = { };
-  sops.secrets."gokapi/cloudconfig" = { };
+  # sops.secrets."gokapi/cloudconfig" = { };
   sops.secrets."gokapi/deployment_password" = { };
 
   systemd.services.gokapi = {
@@ -86,11 +83,11 @@
                 configFile="$1"
                 statefulConfigFile="$2"
                 deploymentPasswordFile="$3"
-                cloudConfigFile="$4"
-                statefulCloudConfigFile="$5"
+                # cloudConfigFile="$4"
+                # statefulCloudConfigFile="$5"
                 mkdir -p "$(dirname "$statefulConfigFile")"
                 cat "$configFile" > "$statefulConfigFile"
-                cat "$cloudConfigFile" > "$statefulCloudConfigFile"
+                # cat "$cloudConfigFile" > "$statefulCloudConfigFile"
                 ${lib.getExe pkgs.gokapi} --deployment-password "$(cat "$deploymentPasswordFile")"
               '';
             }
@@ -101,15 +98,13 @@
           settingsFile
           "%S/gokapi/config/config.json"
           "%d/deployment-password"
-          # config.sops.secrets."gokapi/cloudconfig".path
-          "%d/cloudconfig"
-          "%S/gokapi/config/cloudconfig.yml"
+          # "%d/cloudconfig"
+          # "%S/gokapi/config/cloudconfig.yml"
         ];
       ExecStart = lib.getExe pkgs.gokapi;
-      # EnvironmentFile = config.sops.secrets."gokapi/env".path;
       LoadCredential = [
         "deployment-password:${config.sops.secrets."gokapi/deployment_password".path}"
-        "cloudconfig:${config.sops.secrets."gokapi/cloudconfig".path}"
+        # "cloudconfig:${config.sops.secrets."gokapi/cloudconfig".path}"
       ];
       RestartSec = 30;
       DynamicUser = true;

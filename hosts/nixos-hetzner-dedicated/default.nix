@@ -36,7 +36,7 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../modules/crafty.nix
-      # ../../modules/docker-minecraft-server.nix
+      ../../modules/gokapi.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -189,7 +189,7 @@ in {
     virtualHosts."gokapi.jllamas.dev" = {
       forceSSL = true;
       enableACME = true;
-      locations."/".proxyPass = "http://nixos-hetzner-vps:53842";
+      locations."/".proxyPass = "http://127.0.0.1:53842";
       extraConfig = ''
         client_max_body_size 100M;
       '';
