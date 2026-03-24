@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, pkgs-stable, lib, config, ... }:
 
 {
   options.basePackages = with lib; {
@@ -35,10 +35,10 @@
       ++ lib.optionals config.basePackages.enableFonts [
         noto-fonts
         noto-fonts-cjk-sans
-        noto-fonts-emoji
+        noto-fonts-color-emoji
       ]
       ++ lib.optionals config.basePackages.enableQemu [
-        qemu_full
+        pkgs-stable.qemu_full
         quickemu
       ]
       ++ lib.optionals config.basePackages.enableGuiApps [
