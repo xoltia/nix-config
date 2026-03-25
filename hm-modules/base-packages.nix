@@ -17,6 +17,11 @@
       default = true;
       description = "Enable font packages.";
     };
+    enableGamingApps = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable font packages.";
+    };
   };
 
   config = {
@@ -47,6 +52,9 @@
         amberol
         gimp3
         (bottles.override { removeWarningPopup = true; })
+      ]
+      ++ lib.optionals config.basePackages.enableGamingApps [
+        prismlauncher
       ];
   };
 }
