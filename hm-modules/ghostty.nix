@@ -10,11 +10,11 @@
       theme = "fleet_dark";
       cursor-style = "block";
       cursor-style-blink = true;
-      shell-integration-features = "no-cursor";
       window-height = 35;
       window-width = 120;
       window-padding-balance = true;
       window-padding-color = "extend";
+      shell-integration-features = "no-cursor,ssh-terminfo,ssh-env";
       keybind = [
         # Scrolling
         "shift+page_down=scroll_page_down"
