@@ -37,6 +37,7 @@ in {
       ./hardware-configuration.nix
       ../../modules/crafty.nix
       ../../modules/gokapi.nix
+      ../../modules/tududi.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
