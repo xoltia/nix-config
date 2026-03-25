@@ -12,6 +12,15 @@
     ../../modules/postgresql-backup-archive.nix
   ];
 
+  networking.useDHCP = false;
+  systemd.network.enable = true;
+  systemd.network.networks."30-wan" = {
+    matchConfig.Name = "enp1s0";
+    networkConfig.DHCP = "ipv4";
+    address = [ "2a01:4f8:c0c:446e::/64" ];
+    routes = [ { Gateway = "fe80::1"; } ];
+  };
+
   boot.loader.grub = {
     # no need to set devices, disko will add all devices that have a EF02 partition to the list already
     # devices = [ ];
