@@ -40,8 +40,10 @@ in {
       ../../modules/tududi.nix
     ];
 
+  # Nix/nixpkgs settings
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-    
+  nixpkgs.overlays = [ inputs.copyparty.overlays.default ];
+
   # We want to still be able to boot without one of these
   fileSystems."/boot-1".options = [ "nofail" ];
   fileSystems."/boot-2".options = [ "nofail" ];
@@ -152,16 +154,31 @@ in {
       "luisl" = import ./home.nix;
     };
   };
+
+  # Setup secrets
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFormat = "yaml";
+  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
   
+  sops.secrets."copyparty/luisl_password".owner = "copyparty";
+  sops.secrets.mullvad_config = { };
+
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "server";
   };
 
-  # Temporary workaround, should IPv6 DNS be fixed in later release
+  # Temporary workaround, IPv6 DNS should be included by default in later release
   systemd.services.tailscaled.serviceConfig.Environment = [
     "TS_DEBUG_MAGIC_DNS_DUAL_STACK=true"
   ];
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "llamas.jnl@gmail.com";
+  };
 
   services.nginx = {
     enable = true;
@@ -196,15 +213,7 @@ in {
       '';
     };
   };
-
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
-
-  sops.secrets."copyparty/luisl_password".owner = "copyparty";
-
-  nixpkgs.overlays = [ inputs.copyparty.overlays.default ];
-
+  
   services.copyparty = {
     enable = true;
     package = pkgs.copyparty-full;
@@ -256,13 +265,6 @@ in {
     openFilesLimit = 8192;
   };
 
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "llamas.jnl@gmail.com";
-  };
-
-  sops.secrets.mullvad_config = { };
-
   services.qbittorrent = {
     enable = true;
     webuiPort = 8080;
@@ -286,7 +288,10 @@ in {
     openVPNPorts = [];
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  services.crafty = {
+    enable = true;
+    openJavaPorts = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
