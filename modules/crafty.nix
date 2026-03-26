@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }:
 
+with lib;
 let
   cfg = config.services.crafty;
 in
@@ -24,7 +25,7 @@ in
 
     dashboardPort = mkOption {
       type = types.port;
-      default = 3002;
+      default = 8443;
     };
 
     openDashboardPort = mkOption {
@@ -46,7 +47,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     virtualisation.podman.enable = true;
     virtualisation.oci-containers.backend = "podman";
 
@@ -62,12 +63,12 @@ in
 
     # Ensure directories exist
     systemd.tmpfiles.rules = [
-      "d ${dataDir} 0770 ${cfg.user} ${cfg.group} -"
-      "d ${dataDir}/backups 0770 ${cfg.user} ${cfg.group} -"
-      "d ${dataDir}/logs 0770 ${cfg.user} ${cfg.group} -"
-      "d ${dataDir}/servers 0770 ${cfg.user} ${cfg.group} -"
-      "d ${dataDir}/config 0770 ${cfg.user} ${cfg.group} -"
-      "d ${dataDir}/import 0770 ${cfg.user} ${cfg.group} -"
+      "d ${cfg.dataDir} 0770 ${cfg.user} ${cfg.group} -"
+      "d ${cfg.dataDir}/backups 0770 ${cfg.user} ${cfg.group} -"
+      "d ${cfg.dataDir}/logs 0770 ${cfg.user} ${cfg.group} -"
+      "d ${cfg.dataDir}/servers 0770 ${cfg.user} ${cfg.group} -"
+      "d ${cfg.dataDir}/config 0770 ${cfg.user} ${cfg.group} -"
+      "d ${cfg.dataDir}/import 0770 ${cfg.user} ${cfg.group} -"
     ];
 
     virtualisation.oci-containers.containers.crafty = {
@@ -76,7 +77,7 @@ in
       environment = { TZ = "Etc/UTC"; };
       podman.user = cfg.user;
       ports = [
-        "${cfg.dashboardPort}:8443"
+        "${toString cfg.dashboardPort}:8443"
         "19132:19132/udp"
         "25500-25600:25500-25600"
       ];
@@ -90,10 +91,10 @@ in
     };
   
     networking.firewall = {
-      allowedUDPPorts = lib.optionals cfg.openBedrockPort [ 19132 ];
+      allowedUDPPorts = optionals cfg.openBedrockPort [ 19132 ];
       allowedTCPPortRanges =
-        (lib.optionals cfg.openJavaPorts [ { from = 25500; to = 25600; } ])
-        ++ (lib.optionals cfg.openDashboardPort [ cfg.port ]);
+        (optionals cfg.openJavaPorts [ { from = 25500; to = 25600; } ])
+        ++ (optionals cfg.openDashboardPort [ cfg.port ]);
     };
   };
 }
