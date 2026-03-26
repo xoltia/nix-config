@@ -239,6 +239,19 @@ in {
           d2t = true;
         };
       };
+
+      "/torrents" = {
+        path = "/var/lib/qBittorrent/qBittorrent/downloads";
+        access = {
+          r = [ "luisl" ];
+        };
+        flags = {
+          fk = 4;
+          scan = 60;
+          e2d = true;
+          d2t = true;
+        };
+      };
     };
     openFilesLimit = 8192;
   };
@@ -246,6 +259,31 @@ in {
   security.acme = {
     acceptTerms = true;
     defaults.email = "llamas.jnl@gmail.com";
+  };
+
+  sops.secrets.mullvad_config = { };
+
+  services.qbittorrent = {
+    enable = true;
+    webuiPort = 8080;
+    openFirewall = false;
+  };
+
+  systemd.services.qbittorrent.vpnConfinement = {
+    enable = true;
+    vpnNamespace = "mullvad";
+  };
+
+  vpnNamespaces.mullvad = {
+    enable = true;
+    wireguardConfigFile = config.sops.secrets.mullvad_config.path;
+    # Allow access from Tailscale network
+    accessibleFrom = [ "100.64.0.0/10" ];
+    portMappings = [
+      { from = 8080; to = 8080; protocol = "tcp"; }
+    ];
+    # Mullvad doesn't support port forwarding
+    openVPNPorts = [];
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];

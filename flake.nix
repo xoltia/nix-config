@@ -33,6 +33,7 @@
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     copyparty.url = "github:9001/copyparty";
+    vpn-confinement.url = "github:Maroka-chan/VPN-Confinement";
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, ... }@inputs: {
@@ -64,6 +65,7 @@
           inputs.sops-nix.nixosModules.default
           inputs.home-manager.nixosModules.default
           inputs.copyparty.nixosModules.default
+          inputs.vpn-confinement.nixosModules.default
         ];
       };
 
