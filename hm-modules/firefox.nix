@@ -36,8 +36,8 @@
         "general.autoScroll" = true;
         "sidebar.main.tools" = "syncedtabs,history,bookmarks";
         "sidebar.revamp" = true;
-        "sidebar.verticalTabs" = true;
-        "sidebar.visibility" = "expand-on-hover";
+        "sidebar.verticalTabs" = false;
+        "sidebar.visibility" = "hide-sidebar";
         "signon.rememberSignons" = false;
         "signon.showAutoCompleteFooter" = false;
         "widget.use-xdg-desktop-portal.file-picker" = 1;
