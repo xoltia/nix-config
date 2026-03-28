@@ -63,22 +63,21 @@
                 "urlbar-container",
                 "customizableui-special-spring2",
                 "downloads-button",
-                "save-to-pocket-button",
                 "unified-extensions-button",
-                "firefox-view-button",
-                "alltabs-button",
                 "reset-pbm-toolbar-button",
                 "fxa-toolbar-menu-button"
               ],
               "toolbar-menubar": [
                 "menubar-items"
               ],
-              "TabsToolbar": [],
-              "vertical-tabs": [
-                "tabbrowser-tabs"
+              "TabsToolbar": [
+                "firefox-view-button",
+                "tabbrowser-tabs",
+                "new-tab-button",
+                "alltabs-button"
               ],
+              "vertical-tabs": [],
               "PersonalToolbar": [
-                "import-button",
                 "personal-bookmarks",
                 "fxms-bmb-button"
               ]
@@ -98,7 +97,7 @@
               "vertical-tabs",
               "PersonalToolbar"
             ],
-            "currentVersion": 22,
+            "currentVersion": 23,
             "newElementCount": 1
           }
         '';
