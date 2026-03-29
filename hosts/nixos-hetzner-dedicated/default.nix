@@ -284,6 +284,14 @@ in {
     openFirewall = false;
   };
 
+  # Ensure group write (needed by bazarr)
+  systemd.services.sonarr.serviceConfig.UMask = lib.mkForce "0002";
+
+  services.bazarr = {
+    enable = true;
+    openFirewall = false;
+  };
+
   services.jellyfin = {
     enable = true;
     openFirewall = false;
@@ -305,6 +313,7 @@ in {
   users.users.${config.services.sonarr.user}.extraGroups = [ "media" ];
   users.users.${config.services.copyparty.user}.extraGroups = [ "media" ];
   users.users.${config.services.jellyfin.user}.extraGroups = [ "media" ];
+  users.users.${config.services.bazarr.user}.extraGroups = [ "media" ];
 
   systemd.tmpfiles.rules = [
     "d /srv/media 2775 root media - -"
