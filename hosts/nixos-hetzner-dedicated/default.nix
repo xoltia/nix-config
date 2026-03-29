@@ -263,6 +263,19 @@ in {
           d2t = true;
         };
       };
+
+      "/media" = {
+        path = "/srv/media";
+        access = {
+          r = [ "luisl" ];
+        };
+        flags = {
+          fk = 4;
+          scan = 60;
+          e2d = true;
+          d2t = true;
+        };
+      };
     };
     openFilesLimit = 8192;
   };
@@ -281,14 +294,49 @@ in {
   vpnNamespaces.mullvad = {
     enable = true;
     wireguardConfigFile = config.sops.secrets.mullvad_config.path;
-    # Allow access from Tailscale network
-    accessibleFrom = [ "100.64.0.0/10" ];
+    # Allow access from Tailscale network or localhost
+    accessibleFrom = [
+      "100.64.0.0/10"
+      "127.0.0.1"
+    ];
     portMappings = [
       { from = 8080; to = 8080; protocol = "tcp"; }
     ];
     # Mullvad doesn't support port forwarding
-    openVPNPorts = [];
+    openVPNPorts = [ ];
   };
+
+  services.sonarr = {
+    enable = true;
+    openFirewall = false;
+  };
+
+  services.jellyfin = {
+    enable = true;
+    openFirewall = false;
+  };
+
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      # intel-ocl
+      intel-media-driver
+    ];
+  };
+
+  systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+
+  users.groups.media = { };
+  users.users.${config.services.qbittorrent.user}.extraGroups = [ "media" ];
+  users.users.${config.services.sonarr.user}.extraGroups = [ "media" ];
+  users.users.${config.services.copyparty.user}.extraGroups = [ "media" ];
+  users.users.${config.services.jellyfin.user}.extraGroups = [ "media" ];
+
+  systemd.tmpfiles.rules = [
+    "d /srv/media 2775 root media - -"
+    "d /srv/media/anime 2775 root media - -"
+  ];
 
   services.crafty = {
     enable = true;
