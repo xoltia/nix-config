@@ -1,10 +1,7 @@
-# Full NixOS configuration for a ZFS server with full disk encryption hosted on Hetzner.
-# See <https://mazzo.li/posts/hetzner-zfs.html> for more information.
-
+# Reference config: https://mazzo.li/posts/hetzner-zfs.html
 { config, pkgs, lib, inputs, ... }:
 let
   sshKeys = import ../../modules/ssh-keys.nix { inherit lib; };
-  # Deployment-specific parameters -- you need to fill these in where the ... are
   hostName = "nixos-hetzner-dedicated";
   publicKey = sshKeys."luisl@win:initrd".noComment;
   # From `ls -lh /dev/disk/by-id`
@@ -13,27 +10,25 @@ let
   # See <https://major.io/2015/08/21/understanding-systemds-predictable-network-device-names/#picking-the-final-name>
   # for a description on how to find out the network card name reliably.
   networkInterface = "enp0s31f6";
-  # This was derived from `sudo lshw -C network`, for me it says `driver=igb`.
+  # This was derived from `sudo lshw -C network`.
   # Needed to load the right driver before boot for the initrd SSH session.
   networkInterfaceModule = "e1000e";
-  # From the Hetzner control panel
   ipv4 = {
-    address = "95.216.13.236"; # the ip address
-    gateway = "95.216.13.193"; # the gateway ip address
-    netmask = "255.255.255.192"; # the netmask -- might not be the same for you!
-    prefixLength = 26; # must match the netmask, see <https://www.pawprint.net/designresources/netmask-converter.php>
+    address = "95.216.13.236";
+    gateway = "95.216.13.193";
+    netmask = "255.255.255.192";
+    prefixLength = 26; # https://www.pawprint.net/designresources/netmask-converter.php
   };
   ipv6 = {
-    address = "2a01:4f9:2a:e14::"; # the ipv6 addres
-    gateway = "fe80::1"; # the ipv6 gateway
-    prefixLength = 64; # shown in the control panel
+    address = "2a01:4f9:2a:e14::";
+    gateway = "fe80::1";
+    prefixLength = 64;
   };
-  # See <https://nixos.wiki/wiki/NixOS_on_ZFS> for why we need the
-  # hostId and how to generate it
+  # See <https://nixos.wiki/wiki/NixOS_on_ZFS> for why we need the hostId and how to generate it
   hostId = "a020e02c";
 in {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
       ../../modules/crafty.nix
       ../../modules/gokapi.nix
@@ -95,22 +90,13 @@ in {
     enable = true;
     ssh = {
        enable = true;
-       # To prevent ssh clients from freaking out because a different host key is used,
-       # a different port for ssh is useful (assuming the same host has also a regular sshd running)
        port = 2222;
-       # hostKeys paths must be unquoted strings, otherwise you'll run into issues
-       # with boot.initrd.secrets the keys are copied to initrd from the path specified;
-       # multiple keys can be set you can generate any number of host keys using
-       # `ssh-keygen -t ed25519 -N "" -f /boot-1/initrd-ssh-key`
        hostKeys = [
          /boot-1/initrd-ssh-key
          /boot-2/initrd-ssh-key
        ];
-       # public ssh key used for login
        authorizedKeys = [ publicKey ];
     };
-    # this will automatically load the zfs password prompt on login
-    # and kill the other prompt so boot can continue
     postCommands = ''
       cat <<EOF > /root/.profile
       if pgrep -x "zfs" > /dev/null
@@ -124,7 +110,6 @@ in {
     '';
   };
 
-  # Initial empty root password for easy login:
   users.users.root.initialHashedPassword = "";
   services.openssh.settings.PermitRootLogin = "prohibit-password";
 
@@ -221,6 +206,7 @@ in {
     package = pkgs.copyparty-full;
     user = "copyparty"; 
     group = "copyparty"; 
+
     settings = {
       i = "0.0.0.0";
       sftp = "3922";
@@ -232,51 +218,38 @@ in {
     '';
 
     accounts = {
-      luisl = {
-        passwordFile = config.sops.secrets."copyparty/luisl_password".path;
-      };
+      luisl.passwordFile = config.sops.secrets."copyparty/luisl_password".path;
     };
 
-    volumes = {
-      "/" = {
-        path = "/srv/copyparty";
-        access = {
-          A = [ "luisl" ];
-        };
-        flags = {
+    volumes =
+      let
+        defaultFlags = {
           fk = 4;
           scan = 60;
           e2d = true;
           d2t = true;
+        };
+      in
+      {
+        "/" = {
+          path = "/srv/copyparty";
+          access = { A = [ "luisl" ]; };
+          flags = defaultFlags;
+        };
+
+        "/torrents" = {
+          path = "/var/lib/qBittorrent/qBittorrent/downloads";
+          access = { r = [ "luisl" ]; };
+          flags = defaultFlags;
+        };
+
+        "/media" = {
+          path = "/srv/media";
+          access = { r = [ "luisl" ]; };
+          flags = defaultFlags;
         };
       };
 
-      "/torrents" = {
-        path = "/var/lib/qBittorrent/qBittorrent/downloads";
-        access = {
-          r = [ "luisl" ];
-        };
-        flags = {
-          fk = 4;
-          scan = 60;
-          e2d = true;
-          d2t = true;
-        };
-      };
-
-      "/media" = {
-        path = "/srv/media";
-        access = {
-          r = [ "luisl" ];
-        };
-        flags = {
-          fk = 4;
-          scan = 60;
-          e2d = true;
-          d2t = true;
-        };
-      };
-    };
     openFilesLimit = 8192;
   };
 
@@ -343,12 +316,6 @@ in {
     openJavaPorts = true;
   };
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }
 
