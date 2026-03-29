@@ -8,7 +8,6 @@
     ./disk-config.nix
     ./hardware-configuration.nix
     ../../modules/botsu.nix
-    ../../modules/imgproxy.nix
     ../../modules/postgresql-backup-archive.nix
   ];
 
@@ -22,8 +21,6 @@
   };
 
   boot.loader.grub = {
-    # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-    # devices = [ ];
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
@@ -101,44 +98,6 @@
     enableOshiStats = false;
     tokenFile = config.sops.secrets."botsu/discord_token".path;
     youtubeKeyFile = config.sops.secrets."botsu/youtube_api_key".path;
-    oshiStatsAddr = "127.0.0.1:5301";
-    oshiStatsOauthRedirect = "https://oshistats.jllamas.dev/auth/callback";
-    oshiStatsOauthClientId = "1391866556929278024";
-    oshiStatsOauthClientSecretFile = config.sops.secrets."botsu/oshi_stats_oauth_secret".path;
-    oshiStatsImgproxyHost = "imgproxy.jllamas.dev";
-    oshiStatsImgproxySaltFile = config.sops.secrets.botsu-imgproxy-salt.path;
-    oshiStatsImgproxyKeyFile = config.sops.secrets.botsu-imgproxy-key.path;
-  };
-
-  services.imgproxy = {
-    enable = false;
-    keyFile = config.sops.secrets."imgproxy/key".path;
-    saltFile = config.sops.secrets."imgproxy/salt".path;
-    bindAddr = "127.0.0.1:5300";
-  };
-
-  services.nginx = {
-    enable = true;
-    recommendedBrotliSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-
-    virtualHosts."jllamas.dev" = {
-      enableACME = true;
-      addSSL = true;
-      globalRedirect = "xoltia.github.io";
-    };
-
-    virtualHosts."www.jllamas.dev" = {
-      enableACME = true;
-      addSSL = true;
-      globalRedirect = "xoltia.github.io";
-    };    
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "llamas.jnl@gmail.com";
   };
 
   services.tailscale = {
