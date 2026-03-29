@@ -62,9 +62,11 @@
     };
   };
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
+  sops = {
+    defaultSopsFile = ../../secrets/host-nixos-hetzner-vps.yaml;
+    defaultSopsFormat = "yaml";
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  };
 
   # Secrets for running the Botsu Discord bot
   sops.secrets."botsu/discord_token".owner = config.users.users.botsu.name;
@@ -73,19 +75,7 @@
   sops.secrets."botsu/discord_token".restartUnits = [ "botsu.service" ];
   sops.secrets."botsu/youtube_api_key".restartUnits = [ "botsu.service" ];
   sops.secrets."botsu/oshi_stats_oauth_secret".restartUnits = [ "botsu-oshi-stats-server.service" ];
-
-  # Secrets for running improxy service
-  # sops.secrets."imgproxy/key".owner = config.users.users.imgproxy.name;
-  # sops.secrets."imgproxy/salt".owner = config.users.users.imgproxy.name;
-
-  sops.secrets.botsu-imgproxy-key.owner = config.users.users.botsu.name;
-  sops.secrets.botsu-imgproxy-salt.owner = config.users.users.botsu.name;
-  sops.secrets.botsu-imgproxy-key.key = "imgproxy/key";
-  sops.secrets.botsu-imgproxy-salt.key = "imgproxy/salt";
-
-  # sops.secrets."rclone/mega-s4-amsterdam" = { };
-  # sops.secrets."rclone/hetzner-storagebox" = { };
-  sops.secrets."rclone/backblaze-b2-pgbackup" = { };
+  sops.secrets."rclone/botsu_postgres_backup_b2" = { };
 
   services.postgresql = {
     enable = true;
@@ -101,7 +91,7 @@
   };
 
   services.postgresqlBackupArchive = {
-    rcloneConfigFile = config.sops.secrets."rclone/backblaze-b2-pgbackup".path;
+    rcloneConfigFile = config.sops.secrets."rclone/botsu_posthres_backup_b2".path;
     rcloneRemote = "b2:jllamas-pgbackup-hetzner-vps";
     databases = [ "botsu" ];
   };

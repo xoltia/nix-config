@@ -156,9 +156,11 @@ in {
   };
 
   # Setup secrets
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.defaultSopsFormat = "yaml";
-  sops.age.keyFile = "/home/luisl/.config/sops/age/keys.txt";
+  sops = {
+    defaultSopsFile = ../../secrets/host-nixos-hetzner-dedicated.yaml;
+    defaultSopsFormat = "yaml";
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  };
   
   sops.secrets."copyparty/luisl_password".owner = "copyparty";
   sops.secrets.mullvad_config = { };
