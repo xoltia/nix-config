@@ -91,7 +91,7 @@
   };
 
   services.postgresqlBackupArchive = {
-    rcloneConfigFile = config.sops.secrets."rclone/botsu_posthres_backup_b2".path;
+    rcloneConfigFile = config.sops.secrets."rclone/botsu_postgres_backup_b2".path;
     rcloneRemote = "b2:jllamas-pgbackup-hetzner-vps";
     databases = [ "botsu" ];
   };
