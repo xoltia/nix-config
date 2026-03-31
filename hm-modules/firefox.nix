@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, ... }:
 {
   defaultApplications.browser = "firefox.desktop";
   programs.firefox = {
@@ -16,6 +16,7 @@
         };
         "sponsorBlocker@ajay.app" = { default_area = "menupanel"; };
         "446900e4-71c2-419f-a6a7-df9c091e268b" = { default_area = "menupanel"; };
+        "b6b8a44a-b6d7-42e2-ba01-636632196d01" = { default_area = "menupanel"; };
       };
       RequestedLocales = [ "en-US" "ja-JP" ];
       DNSOverHTTPS = {
@@ -25,10 +26,34 @@
 
     profiles.luisl = {
       isDefault = true;
-      extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
+      extensions.packages =
+      let
+        addons = inputs.firefox-addons;
+        addons-lib = addons.lib.${pkgs.stdenv.hostPlatform.system}; 
+        addons-pkgs = addons.packages.${pkgs.stdenv.hostPlatform.system}; 
+      in
+      with addons-pkgs;
+      [
         ublock-origin
         sponsorblock
         bitwarden
+        # Custom extensions can be added using this command to generate:
+        # nix run gitlab:rycee/nur-expressions#mozilla-addons-to-nix
+        (addons-lib.buildFirefoxXpiAddon {
+          pname = "youtube-row-fixer-extension";
+          version = "1.1.7";
+          addonId = "{b6b8a44a-b6d7-42e2-ba01-636632196d01}";
+          url = "https://addons.mozilla.org/firefox/downloads/file/4626654/youtube_row_fixer_extension-1.1.7.xpi";
+          sha256 = "c1aa4f1a609837d9e60e858a89ca1a1c7da5c511a3aa615b0587344d98375ee5";
+          meta = with lib;
+          {
+            homepage = "https://github.com/sapondanaisriwan/youtube-row-fixer";
+            description = "A browser extension that lets you customize the number of videos, posts, and shelf items displayed per row on YouTube. It also fixes layout issues like oversized thumbnails and enhances your browsing experience.";
+            license = licenses.mit;
+            mozPermissions = [ "scripting" "storage" "https://www.youtube.com/*" ];
+            platforms = platforms.all;
+          };
+        })
       ];
       # about:config options
       settings = {
