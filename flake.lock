@@ -63,22 +63,6 @@
         "type": "gitlab"
       }
     },
-    "firefox-gnome-theme": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1775245627,
-        "narHash": "sha256-vJN+wriJPyNkOWyrD8cWecWoNPuRLw7dmBpbQ1pAyUU=",
-        "owner": "rafaelmardojai",
-        "repo": "firefox-gnome-theme",
-        "rev": "9a7666e8020d2b8510cac824a9de38cfcf65a567",
-        "type": "github"
-      },
-      "original": {
-        "owner": "rafaelmardojai",
-        "repo": "firefox-gnome-theme",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -189,7 +173,6 @@
         "copyparty": "copyparty",
         "disko": "disko",
         "firefox-addons": "firefox-addons",
-        "firefox-gnome-theme": "firefox-gnome-theme",
         "home-manager": "home-manager",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",

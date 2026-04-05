@@ -1,9 +1,9 @@
 { inputs, pkgs, lib, ... }:
 {
   defaultApplications.browser = "firefox.desktop";
-  home.file.".mozilla/firefox/luisl/chrome/firefox-gnome-theme".source = inputs.firefox-gnome-theme;
   programs.firefox = {
     enable = true;
+
     # See policy settings here.
     # https://mozilla.github.io/policy-templates/
     policies = {
@@ -23,14 +23,9 @@
         Enabled = true;
       };
     };
+
     profiles.luisl = {
       isDefault = true;
-      userChrome = ''
-        @import "firefox-gnome-theme/userChrome.css";
-      '';
-      userContent = ''
-        @import "firefox-gnome-theme/userContent.css";
-      '';
       extensions.packages =
       let
         addons = inputs.firefox-addons;
@@ -62,14 +57,6 @@
       ];
       # about:config options
       settings = {
-        # Theme related settings
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "browser.uidensity" = 0;
-        "svg.context-properties.content.enabled" = true;
-        "browser.theme.dark-private-windows" = false;
-        "widget.gtk.rounded-bottom-corners.enabled" = true;
-
-        # My settings
         "extensions.autoDisableScopes" = 0;
         "general.autoScroll" = true;
         "sidebar.main.tools" = "syncedtabs,history,bookmarks";
@@ -89,15 +76,14 @@
               "unified-extensions-area": [
                 "sponsorblocker_ajay_app-browser-action",
                 "ublock0_raymondhill_net-browser-action",
-                "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action",
-                "_b6b8a44a-b6d7-42e2-ba01-636632196d01_-browser-action"
+                "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
               ],
               "nav-bar": [
+                "sidebar-button",
                 "back-button",
                 "forward-button",
                 "stop-reload-button",
                 "vertical-spacer",
-                "new-tab-button",
                 "customizableui-special-spring7",
                 "urlbar-container",
                 "customizableui-special-spring2",
@@ -110,7 +96,9 @@
                 "menubar-items"
               ],
               "TabsToolbar": [
+                "firefox-view-button",
                 "tabbrowser-tabs",
+                "new-tab-button",
                 "alltabs-button"
               ],
               "vertical-tabs": [],
@@ -124,8 +112,7 @@
               "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action",
               "sponsorblocker_ajay_app-browser-action",
               "developer-button",
-              "screenshot-button",
-              "_b6b8a44a-b6d7-42e2-ba01-636632196d01_-browser-action"
+              "screenshot-button"
             ],
             "dirtyAreaCache": [
               "unified-extensions-area",
@@ -136,7 +123,7 @@
               "PersonalToolbar"
             ],
             "currentVersion": 23,
-            "newElementCount": 5
+            "newElementCount": 1
           }
         '';
       };
