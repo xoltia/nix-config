@@ -18,5 +18,5 @@
   home.homeDirectory = "/home/luisl";
   programs.home-manager.enable = true;
   home.stateVersion = "25.05";
-  programs.ghostty.settings.command = "nu";
+  # programs.ghostty.settings.command = "nu";
 }
