@@ -59,6 +59,7 @@
       settings = {
         "extensions.autoDisableScopes" = 0;
         "general.autoScroll" = true;
+        "services.sync.declinedEngines" = "prefs,addons,addresses,creditcards,passwords,workspaces";
         "sidebar.main.tools" = "syncedtabs,history,bookmarks";
         "sidebar.revamp" = true;
         "sidebar.verticalTabs" = false;
