@@ -42,7 +42,7 @@ in
 
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      accent-color = "pink";
+      accent-color = "blue";
     };
 
     "org/gnome/shell" = {
