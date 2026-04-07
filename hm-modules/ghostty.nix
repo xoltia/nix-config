@@ -1,13 +1,13 @@
-{ pkgs, ... }:
-
+{ ... }:
 {
   programs.ghostty = {
     enable = true;
     clearDefaultKeybinds = true;
     settings = {
       gtk-titlebar-hide-when-maximized = true;
+      window-theme = "system";
       mouse-hide-while-typing = true;
-      theme = "fleet_dark";
+      theme = "dark:fleet_dark,light:Adwaita";
       cursor-style = "block";
       cursor-style-blink = true;
       window-height = 35;
