@@ -51,7 +51,6 @@ in
         "org.gnome.Nautilus.desktop"
         "com.mitchellh.ghostty.desktop"
         "discord.desktop"
-        "spotify.desktop"
         "net.nokyan.Resources.desktop"
       ];
       disable-user-extensions = false;
