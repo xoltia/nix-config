@@ -32,7 +32,6 @@ in {
       ./hardware-configuration.nix
       ../../modules/crafty.nix
       ../../modules/gokapi.nix
-      ../../modules/tududi.nix
     ];
 
   # Nix/nixpkgs settings
@@ -317,7 +316,6 @@ in {
 
   systemd.tmpfiles.rules = [
     "d /srv/media 2775 root media - -"
-    "d /srv/media/anime 2775 root media - -"
   ];
 
   services.crafty = {
