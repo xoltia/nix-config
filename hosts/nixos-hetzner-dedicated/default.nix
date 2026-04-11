@@ -74,7 +74,10 @@ in {
   };
   networking.defaultGateway = ipv4.gateway;
   networking.defaultGateway6 = { address = ipv6.gateway; interface = networkInterface; };
-  networking.nameservers = [ "8.8.8.8" ];
+  networking.nameservers = [
+    "9.9.9.9"
+    "149.112.112.112"
+  ];
 
   # Remote unlocking, see <https://nixos.wiki/wiki/NixOS_on_ZFS>,
   # section "Unlock encrypted zfs via ssh on boot"
@@ -83,8 +86,9 @@ in {
     # See <https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt> for docs on this
     # ip=<client-ip>:<server-ip>:<gw-ip>:<netmask>:<hostname>:<device>:<autoconf>:<dns0-ip>:<dns1-ip>:<ntp0-ip>
     # The server ip refers to the NFS server -- we don't need it.
-    "ip=${ipv4.address}::${ipv4.gateway}:${ipv4.netmask}:${hostName}-initrd:${networkInterface}:off:8.8.8.8"
+    "ip=${ipv4.address}::${ipv4.gateway}:${ipv4.netmask}:${hostName}-initrd:${networkInterface}:off:9.9.9.9"
   ];
+
   boot.initrd.network = {
     enable = true;
     ssh = {
