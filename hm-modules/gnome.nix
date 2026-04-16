@@ -36,8 +36,8 @@ in
 
   dconf.settings = with lib.hm.gvariant;  {
     "org/gnome/desktop/background" = {
-      picture-uri = "file://" + ./wallpaper.png;
-      picture-uri-dark = "file://" + ./wallpaper.png;
+      picture-uri = "file://" + ./wallpaper;
+      picture-uri-dark = "file://" + ./wallpaper;
     };
 
     "org/gnome/desktop/interface" = {
