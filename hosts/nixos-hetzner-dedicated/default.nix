@@ -119,6 +119,8 @@ in {
   # SSH
   users.users.root.openssh.authorizedKeys.keys = [ publicKey ];
   services.openssh.enable = true;
+  services.fail2ban.enable = true;
+  
   programs.zsh.enable = true;
   environment.systemPackages = map lib.lowPrio [
     pkgs.gitMinimal

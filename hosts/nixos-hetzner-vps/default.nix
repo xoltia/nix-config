@@ -34,7 +34,10 @@
 
   networking.hostName = "nixos-hetzner-vps";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  services.fail2ban.enable = true;
   services.openssh.enable = true;
+
   programs.zsh.enable = true;
 
   users.users.luisl = {
