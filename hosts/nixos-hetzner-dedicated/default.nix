@@ -154,6 +154,7 @@ in {
   
   sops.secrets."copyparty/luisl_password".owner = "copyparty";
   sops.secrets.mullvad_config = { };
+  sops.secrets.windscribe_config = { };
 
   services.tailscale = {
     enable = true;
@@ -266,12 +267,12 @@ in {
 
   systemd.services.qbittorrent.vpnConfinement = {
     enable = true;
-    vpnNamespace = "mullvad";
+    vpnNamespace = "wg";
   };
 
-  vpnNamespaces.mullvad = {
+  vpnNamespaces.wg = {
     enable = true;
-    wireguardConfigFile = config.sops.secrets.mullvad_config.path;
+    wireguardConfigFile = config.sops.secrets.windscribe_config.path;
     # Allow access from Tailscale network or localhost
     accessibleFrom = [
       "100.64.0.0/10"
