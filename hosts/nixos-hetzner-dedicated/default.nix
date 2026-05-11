@@ -330,6 +330,76 @@ in {
     openJavaPorts = true;
   };
 
+  services.glance = {
+    enable = true;
+    settings.server.port = 5678;
+    settings.server.host = "0.0.0.0";
+    settings.pages = [
+      {
+        name = "Startpage";
+        width = "slim";
+        hide-desktop-navigation = true;
+        center-vertically = true;
+        columns = [{
+          size = "full";
+          widgets = [
+            {
+              type = "search";
+              autofocus = true;
+            }
+            {
+              type = "monitor";
+              cache = "1m";
+              title = "Services";
+              sites = [
+                { title = "Jellyfin"; url = "http://nixos-hetzner-dedicated:8096"; icon = "sh:jellyfin"; }
+                { title = "Sonarr"; url = "http://nixos-hetzner-dedicated:8989"; icon = "sh:sonarr"; }
+                { title = "Bazarr"; url = "http://nixos-hetzner-dedicated:6767"; icon = "sh:bazarr"; }
+                {
+                    title = "qBittorrent";
+                    url = "http://nixos-hetzner-dedicated:8080";
+                    check-url = "http://${config.vpnNamespaces.wg.namespaceAddress}:8080";
+                    icon = "sh:qbittorrent";
+                }
+                { title = "Gokapi"; url = "https://gokapi.jllamas.dev"; icon = "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/gokapi.webp"; }
+                { title = "copyparty"; url = "http://nixos-hetzner-dedicated:3923"; icon = "sh:copyparty"; }
+                { title = "Crafty Controller"; url = "https://nixos-hetzner-dedicated:8443/status"; icon = "sh:crafty-controller"; allow-insecure = true; }
+              ];
+            }
+            {
+              type = "bookmarks";
+              groups = [
+                {
+                  title = "General";
+                  links = [
+                    { title = "Gmail"; url = "https://mail.google.com/mail/u/0/"; }
+                    { title = "GitHub"; url = "https://github.com/"; }
+                    { title = "TickTick"; url = "https://ticktick.com/webapp/#p/inbox/tasks"; }
+                  ];
+                }
+                {
+                  title = "Entertainment";
+                  links = [
+                    { title = "YouTube"; url = "https://www.youtube.com/playlist?list=WL"; }
+                    { title = "YouTube Music"; url = "https://music.youtube.com/"; }
+                  ];
+                }
+                {
+                  title = "Admin";
+                  links = [
+                    { title = "Hetzner"; url = "https://console.hetzner.com/projects"; }
+                    { title = "Cloudflare"; url = "https://dash.cloudflare.com/"; }
+                    { title = "Backblaze"; url = "https://secure.backblaze.com/b2_buckets.htm"; }
+                  ];
+                }
+              ];
+            }
+          ];
+        }];
+      }
+    ];
+  };
+
   system.stateVersion = "25.11";
 }
 
