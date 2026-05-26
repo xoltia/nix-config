@@ -2,6 +2,7 @@ keys:
   - &admin_luisl age10xedyxx06c4sunknkp839d35537wluxra7vkfup7mgnuau0zwu0qkfrlle
   - &host_nixos_hetzner_dedicated age1h6lrdx5p5vdzazjkfzchh97eszxnn7ea4h2078pfr40ahkqhpu9ss3t7ve
   - &host_nixos_hetzner_vps age18rxv3nxr2laymh68zxxkdhrhndaqv00ms6vfx2z5d2ujy2xussxsrklsu0
+  - &host_nixos_netcup_vps age1s88fpesn4gkyd9n3yyge2dn5ta67tms6qy60u4q4e4r9krdv8flqz4z40u
 creation_rules:
   - path_regex: secrets/host-nixos-hetzner-dedicated\.(yaml|json|env|ini)$
     key_groups:
@@ -13,3 +14,8 @@ creation_rules:
     - age:
       - *admin_luisl
       - *host_nixos_hetzner_vps
+  - path_regex: secrets/host-nixos-netcup-vps\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *admin_luisl
+      - *host_nixos_netcup_vps

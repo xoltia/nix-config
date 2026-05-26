@@ -80,6 +80,17 @@
         ];
       };
 
+      nixosConfigurations.nixos-netcup-vps = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/nixos-netcup-vps
+          inputs.disko.nixosModules.default
+          inputs.home-manager.nixosModules.default
+          inputs.sops-nix.nixosModules.default
+        ];
+      };
+
       nixosConfigurations.nixos-wsl = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
