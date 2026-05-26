@@ -71,14 +71,29 @@
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     mkdir -p /btrfs_tmp
     mount /dev/disk/by-partlabel/disk-main-root /btrfs_tmp
-    
-    # Safely delete the previous ephemeral root if it exists
+
+    delete_subvolume_recursively() {
+      local target="$1"
+
+      if [ ! -e "$target" ]; then
+        return 0
+      fi
+
+      echo "Starting recursive deletion for: $target"
+
+      btrfs subvolume list -o "$target" | awk '{print $NF}' | sort -r | while read -r subvol; do
+        echo "Deleting nested child subvolume: /btrfs_tmp/$subvol"
+        btrfs subvolume delete "/btrfs_tmp/$subvol"
+      done
+
+      echo "Deleting parent subvolume: $target"
+      btrfs subvolume delete "$target"
+    }
+
     if [ -e /btrfs_tmp/root ]; then
-        echo "Cleaning up ephemeral Btrfs root subvolume..."
-        btrfs subvolume delete /btrfs_tmp/root
+      delete_subvolume_recursively "/btrfs_tmp/root"
     fi
-    
-    # Re-create a completely root subvolume
+
     echo "Creating blank Btrfs root subvolume..."
     btrfs subvolume create /btrfs_tmp/root
     umount /btrfs_tmp
