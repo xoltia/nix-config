@@ -34,6 +34,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vpn-confinement.url = "github:Maroka-chan/VPN-Confinement";
+    impermanence = {
+      url = "github:nix-community/impermanence"; 
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, ... }@inputs: {
@@ -88,6 +93,7 @@
           inputs.disko.nixosModules.default
           inputs.home-manager.nixosModules.default
           inputs.sops-nix.nixosModules.default
+          inputs.impermanence.nixosModules.default
         ];
       };
 

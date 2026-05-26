@@ -66,6 +66,47 @@
     };
   };
 
+  boot.initrd.enable = true;
+  boot.initrd.supportedFilesystems = [ "btrfs" ];
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    mkdir -p /btrfs_tmp
+    mount /dev/disk/by-partlabel/disk-main-root /btrfs_tmp
+    
+    # Safely delete the previous ephemeral root if it exists
+    if [ -e /btrfs_tmp/root ]; then
+        echo "Cleaning up ephemeral Btrfs root subvolume..."
+        btrfs subvolume delete /btrfs_tmp/root
+    fi
+    
+    # Re-create a completely root subvolume
+    echo "Creating blank Btrfs root subvolume..."
+    btrfs subvolume create /btrfs_tmp/root
+    umount /btrfs_tmp
+  '';
+
+  fileSystems."/persist".neededForBoot = true;
+
+  environment.persistence."/persist" = {
+    enable = true;
+    hideMounts = true;
+    directories = [
+      "/var/log"
+      "/var/lib/nixos"
+      "/var/lib/systemd/coredump"
+      "/var/lib/fail2ban"
+      "/etc/ssh"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+    users.luisl = {
+      directories = [
+        ".ssh"
+        "nix-config"
+      ];
+    };
+  };
+
   services.btrfs.autoScrub.enable = true;
   system.stateVersion = "25.11";
 }
