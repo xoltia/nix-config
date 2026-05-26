@@ -1,4 +1,4 @@
-{ modulesPath, lib, pkgs, config, ... }:
+{ modulesPath, lib, pkgs, config, inputs, ... }:
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -57,6 +57,13 @@
         sshKeys."nixos@nixos-wsl".raw
       ];
     shell = pkgs.zsh;
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "luisl" = import ./home.nix;
+    };
   };
 
   services.btrfs.autoScrub.enable = true;
