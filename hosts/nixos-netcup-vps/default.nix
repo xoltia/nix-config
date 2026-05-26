@@ -43,6 +43,8 @@
     neededForUsers = true;
   };
 
+  users.mutableUsers = false;
+
   users.users.luisl = {
     isNormalUser = true;
     home = "/home/luisl";
